@@ -1,12 +1,20 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { ProfilesRepository } from './profiles.repository';
-import { CreateProfileDto, UsernameCheckDto } from './dto/profiles.dto';
+import { CreateProfileDto, UsernameCheckDto, LinkType } from './dto/profiles.dto';
 import { Profile, Link, FeaturedRepo } from '@prisma/client';
 
 export interface ProfileWithLinks extends Profile {
   links: Link[];
   githubRepos: FeaturedRepo[];
 }
+
+const DEFAULT_TITLES: Record<LinkType, string> = {
+  [LinkType.GITHUB]: 'GitHub',
+  [LinkType.LINKEDIN]: 'LinkedIn',
+  [LinkType.CV]: 'Currículum',
+  [LinkType.PORTFOLIO]: 'Portfolio',
+  [LinkType.CUSTOM]: '',
+};
 
 @Injectable()
 export class ProfilesService {
@@ -36,7 +44,7 @@ export class ProfilesService {
     const linksData = dto.links?.map((link, index) => ({
       type: link.type,
       url: link.url,
-      title: link.title,
+      title: link.title || DEFAULT_TITLES[link.type] || 'Enlace',
       order: index,
     })) || [];
 
@@ -52,6 +60,7 @@ export class ProfilesService {
       name: dto.name,
       jobTitle: dto.jobTitle,
       bio: dto.bio,
+      avatarUrl: dto.avatarUrl,
       githubUsername,
       linkedinUrl: dto.linkedinUrl,
       cvUrl: dto.cvUrl,

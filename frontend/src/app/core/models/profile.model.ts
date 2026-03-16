@@ -24,6 +24,7 @@ export interface Profile {
   name: string;
   jobTitle: string | null;
   bio: string | null;
+  avatarUrl: string | null;
   githubUsername: string | null;
   linkedinUrl: string | null;
   cvUrl: string | null;
@@ -37,6 +38,7 @@ export interface CreateProfileDto {
   name: string;
   jobTitle?: string;
   bio?: string;
+  avatarUrl?: string;
   githubUrl?: string;
   linkedinUrl?: string;
   cvUrl?: string;
@@ -47,7 +49,7 @@ export interface CreateProfileDto {
 export interface CreateLinkDto {
   type: LinkType;
   url: string;
-  title: string;
+  title?: string;
 }
 
 export interface CreateFeaturedRepoDto {

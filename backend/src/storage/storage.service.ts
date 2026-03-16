@@ -54,4 +54,33 @@ export class StorageService {
       console.error('Error deleting CV:', error.message);
     }
   }
+
+  async uploadAvatar(file: Buffer, filename: string, contentType: string): Promise<string> {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!contentType || !allowedTypes.includes(contentType)) {
+      throw new BadRequestException('Solo se permiten imágenes JPG, PNG o WEBP');
+    }
+
+    const timestamp = Date.now();
+    const sanitizedFilename = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const path = `avatars/${timestamp}-${sanitizedFilename}`;
+
+    const { data, error } = await this.supabase.storage
+      .from('avatars')
+      .upload(path, file, {
+        contentType,
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    if (error) {
+      throw new BadRequestException(`Error al subir avatar: ${error.message}`);
+    }
+
+    const { data: urlData } = this.supabase.storage
+      .from('avatars')
+      .getPublicUrl(path);
+
+    return urlData.publicUrl;
+  }
 }

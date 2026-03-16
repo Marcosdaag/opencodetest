@@ -1,30 +1,30 @@
-# FreeLink - LinkTree para Freelancers
+# devtreekz - Tu Link para Destacar como Freelancer
 
-Plataforma tipo LinkTree diseñada específicamente para programadores freelance. Crea tu página profesional con un solo link y muestra tu CV, portfolio, GitHub y LinkedIn.
+Plataforma tipo LinkTree diseñada específicamente para programadores freelance. Crea tu página profesional con un solo link y muestra tu CV, portfolio, GitHub y más.
 
 ## Características
 
 - 🎨 Diseño moderno con paleta de colores inspirada en VS Code
 - 📱 Fully responsive - se adapta a todos los dispositivos
 - 🔗 Integración con GitHub API para mostrar proyectos destacados
-- 📄 Subida de CV en PDF
+- 📄 Subida de CV en PDF y avatar de perfil
 - ⚡ Perfiles inmutables - una vez creados no se pueden editar
 - 📚 Documentación completa con Swagger
 
 ## Estructura del Proyecto
 
 ```
-freelink/
+devtreekz/
 ├── backend/                 # API REST con NestJS
 │   ├── src/
 │   │   ├── main.ts         # Punto de entrada
 │   │   ├── app.module.ts   # Módulo principal
-│   │   ├── prisma/        # Conexión a base de datos
+│   │   ├── prisma/         # Conexión a base de datos
 │   │   ├── profiles/       # Gestión de perfiles
-│   │   ├── github/        # Integración con GitHub
-│   │   └── storage/       # Upload de archivos (Supabase)
-│   ├── prisma/            # Schema de base de datos
-│   ├── .env               # Variables de entorno
+│   │   ├── github/         # Integración con GitHub
+│   │   └── storage/        # Upload de archivos (Supabase)
+│   ├── prisma/             # Schema de base de datos
+│   ├── .env                # Variables de entorno
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── README.md
@@ -52,7 +52,7 @@ freelink/
 - Node.js 18+
 - npm
 - Base de datos PostgreSQL (Supabase)
-- Bucket de Supabase Storage para CVs
+- Bucket de Supabase Storage para CVs y Avatars
 
 ### Instalación y Ejecución
 
@@ -110,22 +110,24 @@ npm start
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | POST | `/api/storage/upload` | Subir archivo PDF (CV) |
+| POST | `/api/storage/avatar` | Subir imagen de perfil (JPG, PNG, WEBP, máx 4MB) |
 
 ### Modelos de Base de Datos
 
 ```prisma
 model Profile {
   id              String         @id @default(uuid())
-  username       String         @unique
-  name           String
-  jobTitle       String?
-  bio            String?
-  githubUsername String?
-  linkedinUrl    String?
-  cvUrl          String?
-  links          Link[]
-  githubRepos    FeaturedRepo[]
-  createdAt      DateTime       @default(now())
+  username        String         @unique
+  name            String
+  jobTitle        String?
+  bio             String?
+  avatarUrl       String?
+  githubUsername  String?
+  linkedinUrl     String?
+  cvUrl           String?
+  links           Link[]
+  githubRepos     FeaturedRepo[]
+  createdAt       DateTime       @default(now())
 }
 
 model Link {
@@ -189,18 +191,18 @@ GITHUB_TOKEN=""  # Opcional
 ```
 Landing → Crear Perfil (Wizard)
   ├── 1. Username único
-  ├── 2. Información personal
-  ├── 3. Links (portfolio, LinkedIn, etc.)
+  ├── 2. Información personal + Avatar
+  ├── 3. Links (portfolio, LinkedIn, GitHub, CV, personalizado)
   ├── 4. GitHub (seleccionar repos destacados)
   ├── 5. CV PDF
   └── 6. Preview → Publicar
 
-Perfil Público →/:username
+Perfil Público → /:username
 ```
 
 ### Diseño Visual
 
-#### Paleta de Colores (VS Code Inspired)
+#### Paleta de Colores (VS Code + Púrpura)
 
 | Color | Hex | Uso |
 |-------|-----|-----|
@@ -208,6 +210,7 @@ Perfil Público →/:username
 | Primary | `#1e293b` | Cards, superficies |
 | Accent | `#3b82f6` | Botones, links |
 | Accent Light | `#60a5fa` | Hover states |
+| Purple | `#8b5cf6` | Gradientes, acentos |
 | Text | `#f8fafc` | Texto principal |
 | Text Secondary | `#94a3b8` | Texto secundario |
 
@@ -240,7 +243,9 @@ Perfil Público →/:username
 ### Supabase
 
 1. Crear proyecto en Supabase
-2. Configurar bucket de Storage para CVs
+2. Configurar buckets de Storage:
+   - `cvs` - para CVs (PDF)
+   - `avatars` - para avatares (JPG, PNG, WEBP)
 3. Actualizar credenciales en `.env`
 
 ### Deployment

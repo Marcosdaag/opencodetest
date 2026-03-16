@@ -23,12 +23,12 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('FreeLink API')
-    .setDescription('API para LinkTree de programadores freelance')
+    .setTitle('devtreekz API')
+    .setDescription('API para plataforma de enlaces de programadores freelance')
     .setVersion('1.0')
     .addTag('profiles', 'Gestión de perfiles')
     .addTag('github', 'Integración con GitHub')
-    .addTag('storage', 'Subida de archivos')
+    .addTag('storage', 'Subida de archivos (CV, avatar)')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -14,6 +14,7 @@ model Profile {
   name         String
   jobTitle     String?
   bio          String?
+  avatarUrl    String?
   githubUsername String?
   linkedinUrl  String?
   cvUrl        String?

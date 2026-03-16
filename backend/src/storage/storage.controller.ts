@@ -33,4 +33,35 @@ export class StorageController {
 
     return { url };
   }
+
+  @Post('avatar')
+  @ApiOperation({ summary: 'Subir imagen de perfil (avatar)' })
+  @ApiConsumes('multipart/form-data')
+  @ApiResponse({ status: 201, description: 'Avatar subido exitosamente', schema: { example: { url: 'https://xxx.supabase.co/storage/v1/object/public/avatars/123-avatar.png' } } })
+  @ApiResponse({ status: 400, description: 'No se proporcionó archivo o formato no válido' })
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAvatar(
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException('No se proporcionó ningún archivo');
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      throw new BadRequestException('Solo se permiten imágenes JPG, PNG o WEBP');
+    }
+
+    if (file.size > 4 * 1024 * 1024) {
+      throw new BadRequestException('El archivo no puede superar los 4MB');
+    }
+
+    const url = await this.storageService.uploadAvatar(
+      file.buffer,
+      file.originalname,
+      file.mimetype,
+    );
+
+    return { url };
+  }
 }

@@ -26,28 +26,28 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
     ])
   ],
   template: `
-    <div class="min-h-[calc(100vh-4rem)] py-8 px-4">
-      <div class="max-w-2xl mx-auto">
-        <!-- Progress Bar -->
-        <div class="mb-8">
+    <div class="min-h-[calc(100vh-4rem)] py-6 px-4">
+      <div class="max-w-xl mx-auto">
+        <!-- Progress Bar Compact -->
+        <div class="mb-6">
           <div class="flex items-center justify-between mb-2">
             @for (step of steps; track step.id; let i = $index) {
               <div class="flex items-center" [class.flex-1]="i < steps.length - 1">
-                <div class="flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-all duration-300"
+                <div class="flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium transition-all duration-300"
                      [class.bg-accent-500]="currentStep() >= i + 1"
                      [class.text-white]="currentStep() >= i + 1"
                      [class.bg-primary-700]="currentStep() < i + 1"
                      [class.text-slate-400]="currentStep() < i + 1">
                   @if (currentStep() > i + 1) {
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
                   } @else {
                     {{ i + 1 }}
                   }
                 </div>
                 @if (i < steps.length - 1) {
-                  <div class="flex-1 h-0.5 mx-2 transition-all duration-300"
+                  <div class="flex-1 h-0.5 mx-1 transition-all duration-300"
                        [class.bg-accent-500]="currentStep() > i + 1"
                        [class.bg-primary-700]="currentStep() <= i + 1">
                   </div>
@@ -56,47 +56,46 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             }
           </div>
           <div class="text-center">
-            <span class="text-slate-400 text-sm">Paso {{ currentStep() }} de {{ steps.length }}</span>
+            <span class="text-slate-400 text-xs">Paso {{ currentStep() }} de {{ steps.length }}</span>
           </div>
         </div>
 
         <!-- Step Content -->
-        <div class="card-static">
+        <div class="card-static p-5">
           @switch (currentStep()) {
             @case (1) {
               <div @slide>
-                <h2 class="text-2xl font-bold text-white mb-2">Elige tu username</h2>
-                <p class="text-slate-400 mb-6">Este será tu enlace único: freelnk.com/{{ username }}</p>
+                <h2 class="text-xl font-bold text-white mb-1">Elige tu username</h2>
+                <p class="text-slate-400 text-sm mb-4">Tu enlace: devtreekz.com&#x2F;{{ username || 'tu-nombre' }}</p>
                 
-                <div class="mb-4">
-                  <label class="block text-slate-300 text-sm mb-2">Username</label>
+                <div class="mb-3">
                   <div class="flex items-center gap-2">
-                    <span class="text-slate-500">freelnk.com/</span>
+                    <span class="text-slate-500 text-sm">devtreekz.com/</span>
                     <input 
                       type="text" 
                       [(ngModel)]="username" 
                       (ngModelChange)="checkUsername()"
-                      class="input-field flex-1"
+                      class="input-field flex-1 text-sm py-2"
                       placeholder="tu-nombre"
                       maxlength="30"
                     >
                   </div>
                   @if (usernameChecking) {
-                    <p class="text-slate-400 text-sm mt-2">Verificando...</p>
+                    <p class="text-slate-400 text-xs mt-1">Verificando...</p>
                   } @else if (username) {
                     @if (usernameAvailable === true) {
-                      <p class="text-green-400 text-sm mt-2 flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <p class="text-green-400 text-xs mt-1 flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
-                        Username disponible
+                        ¡Disponible!
                       </p>
                     } @else if (usernameAvailable === false) {
-                      <p class="text-red-400 text-sm mt-2 flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <p class="text-red-400 text-xs mt-1 flex items-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                        Username no disponible
+                        No disponible
                       </p>
                     }
                   }
@@ -106,41 +105,68 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (2) {
               <div @slide>
-                <h2 class="text-2xl font-bold text-white mb-2">Información personal</h2>
-                <p class="text-slate-400 mb-6">Cuéntanos quién eres</p>
+                <h2 class="text-xl font-bold text-white mb-1">Información personal</h2>
+                <p class="text-slate-400 text-sm mb-4">Cuéntanos quién eres</p>
                 
-                <div class="space-y-4">
+                <!-- Avatar Upload -->
+                <div class="mb-4 flex items-center gap-4">
+                  <div class="relative">
+                    @if (avatarPreview()) {
+                      <img [src]="avatarPreview()" class="w-16 h-16 rounded-full object-cover border-2 border-accent-500">
+                    } @else {
+                      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white border-2 border-primary-600">
+                        {{ name?.charAt(0)?.toUpperCase() || '?' }}
+                      </div>
+                    }
+                    <label class="absolute bottom-0 right-0 w-6 h-6 bg-accent-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-accent-400 transition-colors">
+                      <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" (change)="onAvatarSelect($event)">
+                    </label>
+                  </div>
+                  <div class="text-xs text-slate-400">
+                    @if (avatarUploading) {
+                      <span class="text-accent-400">Subiendo...</span>
+                    } @else {
+                      <span>JPG, PNG o WEBP (máx 4MB)</span>
+                    }
+                  </div>
+                </div>
+                
+                <div class="space-y-3">
                   <div>
-                    <label class="block text-slate-300 text-sm mb-2">Nombre completo *</label>
+                    <label class="block text-slate-300 text-xs mb-1">Nombre completo *</label>
                     <input 
                       type="text" 
                       [(ngModel)]="name"
-                      class="input-field"
+                      class="input-field text-sm py-2"
                       placeholder="Juan Pérez"
                       maxlength="100"
                     >
                   </div>
                   
                   <div>
-                    <label class="block text-slate-300 text-sm mb-2">Título profesional</label>
+                    <label class="block text-slate-300 text-xs mb-1">Título profesional</label>
                     <input 
                       type="text" 
                       [(ngModel)]="jobTitle"
-                      class="input-field"
+                      class="input-field text-sm py-2"
                       placeholder="Desarrollador Full Stack"
                       maxlength="100"
                     >
                   </div>
                   
                   <div>
-                    <label class="block text-slate-300 text-sm mb-2">Bio</label>
+                    <label class="block text-slate-300 text-xs mb-1">Bio</label>
                     <textarea 
                       [(ngModel)]="bio"
-                      class="input-field min-h-[100px]"
+                      class="input-field text-sm py-2 min-h-[80px] resize-none"
                       placeholder="Cuéntanos sobre ti..."
                       maxlength="800"
                     ></textarea>
-                    <p class="text-slate-500 text-xs mt-1">{{ bio?.length || 0 }}/800 caracteres</p>
+                    <p class="text-slate-500 text-xs mt-1 text-right">{{ bio?.length || 0 }}/800</p>
                   </div>
                 </div>
               </div>
@@ -148,43 +174,50 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (3) {
               <div @slide>
-                <h2 class="text-2xl font-bold text-white mb-2">Agrega tus links</h2>
-                <p class="text-slate-400 mb-6">Añade tu portfolio, LinkedIn y más</p>
+                <h2 class="text-xl font-bold text-white mb-1">Agrega tus links</h2>
+                <p class="text-slate-400 text-sm mb-4">Añade tu portfolio, LinkedIn y más</p>
                 
-                <div class="space-y-4 mb-6">
+                <div class="space-y-3 mb-4">
                   @for (link of links; track $index) {
-                    <div class="bg-primary-700/50 rounded-lg p-4">
-                      <div class="flex items-start gap-3">
-                        <select [(ngModel)]="link.type" class="input-field w-40">
-                          <option value="PORTFOLIO">Portfolio</option>
-                          <option value="LINKEDIN">LinkedIn</option>
-                          <option value="GITHUB">GitHub</option>
-                          <option value="CUSTOM">Personalizado</option>
+                    <div class="bg-primary-700/50 rounded-lg p-3">
+                      <div class="flex items-center gap-2 mb-2">
+                        <select [(ngModel)]="link.type" class="input-field text-xs py-1.5 w-32">
+                          <option value="PORTFOLIO">🌐 Portfolio</option>
+                          <option value="LINKEDIN">💼 LinkedIn</option>
+                          <option value="GITHUB">💻 GitHub</option>
+                          <option value="CV">📄 CV</option>
+                          <option value="CUSTOM">✨ Personalizado</option>
                         </select>
-                        <input 
-                          type="text" 
-                          [(ngModel)]="link.title"
-                          class="input-field flex-1"
-                          placeholder="Título del link"
-                        >
-                        <button (click)="removeLink($index)" class="text-slate-400 hover:text-red-400 transition-colors">
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        @if (link.type === 'CUSTOM') {
+                          <input 
+                            type="text" 
+                            [(ngModel)]="link.title"
+                            class="input-field text-xs py-1.5 flex-1"
+                            placeholder="Título del link"
+                          >
+                        } @else {
+                          <span class="text-xs text-slate-400 flex-1">
+                            {{ getLinkTypeName(link.type) }}
+                          </span>
+                        }
+                        <button (click)="removeLink($index)" class="text-slate-400 hover:text-red-400 transition-colors p-1">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         </button>
                       </div>
                       <input 
                         type="url" 
                         [(ngModel)]="link.url"
-                        class="input-field mt-3"
+                        class="input-field text-xs py-1.5"
                         placeholder="https://"
                       >
                     </div>
                   }
                 </div>
                 
-                <button (click)="addLink()" class="btn-ghost w-full flex items-center justify-center gap-2">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button (click)="addLink()" class="btn-ghost w-full text-xs py-2 flex items-center justify-center gap-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                   Agregar link
@@ -194,76 +227,70 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (4) {
               <div @slide>
-                <h2 class="text-2xl font-bold text-white mb-2">Conecta GitHub</h2>
-                <p class="text-slate-400 mb-6">Selecciona hasta 5 repositorios destacados</p>
+                <h2 class="text-xl font-bold text-white mb-1">Conecta GitHub</h2>
+                <p class="text-slate-400 text-sm mb-4">Selecciona hasta 5 repositorios destacados</p>
                 
-                <div class="mb-4">
-                  <label class="block text-slate-300 text-sm mb-2">Tu usuario de GitHub</label>
-                  <div class="flex gap-2">
-                    <input 
-                      type="text" 
-                      [(ngModel)]="githubUsername"
-                      (ngModelChange)="searchGithubRepos()"
-                      class="input-field flex-1"
-                      placeholder="tu-usuario"
-                    >
-                  </div>
+                <div class="mb-3">
+                  <label class="block text-slate-300 text-xs mb-1">Tu usuario de GitHub</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="githubUsername"
+                    (ngModelChange)="searchGithubRepos()"
+                    class="input-field text-sm py-2"
+                    placeholder="tu-usuario"
+                  >
                 </div>
                 
                 @if (githubRepos().length > 0) {
-                  <div class="mb-4">
+                  <div class="mb-3">
                     <input 
                       type="text" 
                       [(ngModel)]="githubSearch"
                       (ngModelChange)="filterRepos()"
-                      class="input-field"
-                      placeholder="Buscar repositorios..."
+                      class="input-field text-xs py-1.5"
+                      placeholder="🔍 Buscar..."
                     >
                   </div>
                   
-                  <div class="space-y-2 max-h-64 overflow-y-auto">
+                  <div class="space-y-1 max-h-48 overflow-y-auto">
                     @for (repo of filteredRepos(); track repo.id) {
                       <div 
-                        class="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all"
+                        class="flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-all text-xs"
                         [class.bg-accent-500/20]="isRepoSelected(repo)"
-                        [class.bg-primary-700/50]="!isRepoSelected(repo)"
+                        [class.bg-primary-700/30]="!isRepoSelected(repo)"
                         (click)="toggleRepo(repo)"
                       >
-                        <div class="w-5 h-5 rounded border-2 flex items-center justify-center"
+                        <div class="w-4 h-4 rounded border flex items-center justify-center"
                              [class.border-accent-500]="isRepoSelected(repo)"
                              [class.border-slate-500]="!isRepoSelected(repo)">
                           @if (isRepoSelected(repo)) {
-                            <svg class="w-3 h-3 text-accent-400" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-2 h-2 text-accent-400" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                             </svg>
                           }
                         </div>
                         <div class="flex-1 min-w-0">
                           <p class="text-white font-medium truncate">{{ repo.name }}</p>
-                          <p class="text-slate-400 text-sm truncate">{{ repo.description || 'Sin descripción' }}</p>
                         </div>
-                        <div class="flex items-center gap-1 text-slate-400 text-sm">
-                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                          </svg>
-                          {{ repo.stargazers_count }}
+                        <div class="flex items-center gap-1 text-slate-400">
+                          ⭐ {{ repo.stargazers_count }}
                         </div>
                       </div>
                     }
                   </div>
-                  <p class="text-slate-400 text-sm mt-2">{{ selectedRepos().length }}/5 repositorios seleccionados</p>
+                  <p class="text-slate-400 text-xs mt-2">{{ selectedRepos().length }}/5 seleccionados</p>
                 }
               </div>
             }
             
             @case (5) {
               <div @slide>
-                <h2 class="text-2xl font-bold text-white mb-2">Sube tu CV</h2>
-                <p class="text-slate-400 mb-6">Añade tu currículum en PDF</p>
+                <h2 class="text-xl font-bold text-white mb-1">Sube tu CV</h2>
+                <p class="text-slate-400 text-sm mb-4">Añade tu currículum en PDF</p>
                 
                 @if (!cvFile && !cvUrl) {
                   <div 
-                    class="border-2 border-dashed border-primary-600 rounded-lg p-8 text-center cursor-pointer hover:border-accent-500 transition-colors"
+                    class="border-2 border-dashed border-primary-600 rounded-lg p-6 text-center cursor-pointer hover:border-accent-500 transition-colors"
                     (click)="fileInput.click()"
                     (dragover)="onDragOver($event)"
                     (drop)="onDrop($event)"
@@ -275,27 +302,27 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                       class="hidden"
                       (change)="onFileSelect($event)"
                     >
-                    <svg class="w-12 h-12 mx-auto text-slate-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    <svg class="w-10 h-10 mx-auto text-slate-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <p class="text-slate-400">Arrastra un archivo PDF o haz clic para seleccionar</p>
-                    <p class="text-slate-500 text-sm mt-2">Máximo 10MB</p>
+                    <p class="text-slate-400 text-sm">📄 Arrastra o haz clic</p>
+                    <p class="text-slate-500 text-xs mt-1">Máximo 10MB</p>
                   </div>
                 }
                 
                 @if (cvFile) {
-                  <div class="bg-primary-700/50 rounded-lg p-4 flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-lg bg-red-500/20 flex items-center justify-center">
-                      <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="bg-primary-700/50 rounded-lg p-3 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
+                      <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
-                    <div class="flex-1">
-                      <p class="text-white font-medium">{{ cvFile.name }}</p>
-                      <p class="text-slate-400 text-sm">{{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB</p>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-white text-sm font-medium truncate">{{ cvFile.name }}</p>
+                      <p class="text-slate-400 text-xs">{{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB</p>
                     </div>
                     <button (click)="removeCv()" class="text-slate-400 hover:text-red-400 transition-colors">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
@@ -303,11 +330,11 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                 }
                 
                 @if (cvUploading) {
-                  <div class="mt-4">
-                    <div class="h-2 bg-primary-700 rounded-full overflow-hidden">
+                  <div class="mt-3">
+                    <div class="h-1.5 bg-primary-700 rounded-full overflow-hidden">
                       <div class="h-full bg-accent-500 transition-all duration-300" [style.width.%]="uploadProgress"></div>
                     </div>
-                    <p class="text-slate-400 text-sm mt-2">Subiendo... {{ uploadProgress }}%</p>
+                    <p class="text-slate-400 text-xs mt-1">Subiendo... {{ uploadProgress }}%</p>
                   </div>
                 }
               </div>
@@ -315,51 +342,51 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (6) {
               <div @slide>
-                <h2 class="text-2xl font-bold text-white mb-2">Vista previa</h2>
-                <p class="text-slate-400 mb-6">Así se verá tu perfil</p>
+                <h2 class="text-xl font-bold text-white mb-1">Vista previa</h2>
+                <p class="text-slate-400 text-sm mb-4">Así se verá tu perfil</p>
                 
-                <div class="bg-primary-700/50 rounded-xl p-6">
-                  <div class="text-center mb-6">
-                    <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center text-2xl font-bold text-white mb-3">
-                      {{ name?.charAt(0)?.toUpperCase() || '?' }}
-                    </div>
+                <div class="bg-primary-700/50 rounded-xl p-4">
+                  <div class="text-center mb-4">
+                    @if (avatarPreview()) {
+                      <img [src]="avatarPreview()" class="w-16 h-16 rounded-full object-cover mx-auto mb-2 border-2 border-accent-500">
+                    } @else {
+                      <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white mb-2">
+                        {{ name?.charAt(0)?.toUpperCase() || '?' }}
+                      </div>
+                    }
                     <h3 class="text-white font-semibold text-lg">{{ name || 'Tu nombre' }}</h3>
                     @if (jobTitle) {
                       <p class="text-accent-400 text-sm">{{ jobTitle }}</p>
                     }
                     @if (bio) {
-                      <p class="text-slate-400 text-sm mt-3">{{ bio }}</p>
+                      <p class="text-slate-400 text-xs mt-2">{{ bio }}</p>
                     }
                   </div>
                   
                   @if (links.length > 0) {
-                    <div class="space-y-2 mb-4">
+                    <div class="space-y-2 mb-3">
                       @for (link of links; track $index) {
-                        <div class="bg-primary-800 rounded-lg p-3 flex items-center gap-3">
-                          <div class="w-10 h-10 rounded-lg bg-accent-500/20 flex items-center justify-center">
-                            <svg class="w-5 h-5 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                            </svg>
-                          </div>
-                          <span class="text-white">{{ link.title }}</span>
+                        <div class="bg-primary-800 rounded-lg p-2 flex items-center gap-2">
+                          <span class="text-lg">{{ getLinkEmoji(link.type) }}</span>
+                          <span class="text-white text-sm">{{ getLinkDisplayTitle(link) }}</span>
                         </div>
                       }
                     </div>
                   }
                   
                   @if (selectedRepos().length > 0) {
-                    <div class="border-t border-primary-600 pt-4 mt-4">
-                      <p class="text-slate-400 text-sm mb-2">Proyectos destacados: {{ selectedRepos().length }}</p>
+                    <div class="border-t border-primary-600 pt-3 mt-3">
+                      <p class="text-slate-400 text-xs">💻 {{ selectedRepos().length }} proyectos destacados</p>
                     </div>
                   }
                   
                   @if (cvUrl) {
-                    <div class="border-t border-primary-600 pt-4 mt-4">
-                      <div class="flex items-center gap-2 text-green-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <div class="border-t border-primary-600 pt-3 mt-3">
+                      <div class="flex items-center gap-1 text-green-400 text-xs">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
-                        CV subido
+                        📄 CV subido
                       </div>
                     </div>
                   }
@@ -369,43 +396,34 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           }
           
           <!-- Navigation Buttons -->
-          <div class="flex justify-between mt-8">
+          <div class="flex justify-between mt-5 pt-4 border-t border-primary-700">
             <button 
               (click)="previousStep()" 
               [disabled]="currentStep() === 1"
-              class="btn-ghost"
+              class="btn-ghost text-xs py-2 px-3"
               [class.invisible]="currentStep() === 1"
             >
-              <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-              Anterior
+              ← Anterior
             </button>
             
             @if (currentStep() < steps.length) {
               <button 
                 (click)="nextStep()" 
                 [disabled]="!canProceed()"
-                class="btn-primary"
+                class="btn-primary text-xs py-2 px-4"
               >
-                Siguiente
-                <svg class="w-5 h-5 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+                Siguiente →
               </button>
             } @else {
               <button 
                 (click)="submit()" 
                 [disabled]="submitting()"
-                class="btn-primary"
+                class="btn-primary text-xs py-2 px-4"
               >
                 @if (submitting()) {
-                  <app-loading [size]="20" [color]="'white'" />
+                  <app-loading [size]="16" [color]="'white'" />
                 } @else {
-                  Publicar perfil
-                  <svg class="w-5 h-5 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
+                  🚀 Publicar
                 }
               </button>
             }
@@ -421,7 +439,7 @@ export class CreateProfileComponent {
   
   steps = [
     { id: 1, name: 'Username' },
-    { id: 2, name: 'Información' },
+    { id: 2, name: 'Info' },
     { id: 3, name: 'Links' },
     { id: 4, name: 'GitHub' },
     { id: 5, name: 'CV' },
@@ -437,6 +455,10 @@ export class CreateProfileComponent {
   name = '';
   jobTitle = '';
   bio = '';
+  avatarFile: File | null = null;
+  avatarUrl = '';
+  avatarPreview = signal<string | null>(null);
+  avatarUploading = false;
   
   // Step 3: Links
   links: CreateLinkDto[] = [];
@@ -498,15 +520,43 @@ export class CreateProfileComponent {
         return this.usernameAvailable === true;
       case 2:
         return !!this.name && this.name.trim().length > 0;
-      case 3:
-        return true; // Links son opcionales
-      case 4:
-        return true; // GitHub es opcional
-      case 5:
-        return true; // CV es opcional
       default:
         return true;
     }
+  }
+
+  // Step 2: Avatar
+  onAvatarSelect(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.[0]) {
+      const file = input.files[0];
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Solo se permiten imágenes JPG, PNG o WEBP');
+        return;
+      }
+      if (file.size > 4 * 1024 * 1024) {
+        alert('El archivo no puede superar los 4MB');
+        return;
+      }
+      this.avatarFile = file;
+      this.avatarPreview.set(URL.createObjectURL(file));
+      this.uploadAvatar();
+    }
+  }
+
+  uploadAvatar() {
+    if (!this.avatarFile) return;
+    this.avatarUploading = true;
+    this.storage.uploadAvatar(this.avatarFile).subscribe({
+      next: (res) => {
+        this.avatarUrl = res.url;
+        this.avatarUploading = false;
+      },
+      error: () => {
+        this.avatarUploading = false;
+      }
+    });
   }
 
   // Step 3: Links
@@ -516,6 +566,33 @@ export class CreateProfileComponent {
 
   removeLink(index: number) {
     this.links.splice(index, 1);
+  }
+
+  getLinkTypeName(type: LinkType): string {
+    const names: Record<LinkType, string> = {
+      'PORTFOLIO': 'Portfolio',
+      'LINKEDIN': 'LinkedIn',
+      'GITHUB': 'GitHub',
+      'CV': 'Currículum',
+      'CUSTOM': 'Personalizado'
+    };
+    return names[type];
+  }
+
+  getLinkEmoji(type: LinkType): string {
+    const emojis: Record<LinkType, string> = {
+      'PORTFOLIO': '🌐',
+      'LINKEDIN': '💼',
+      'GITHUB': '💻',
+      'CV': '📄',
+      'CUSTOM': '🔗'
+    };
+    return emojis[type];
+  }
+
+  getLinkDisplayTitle(link: CreateLinkDto): string {
+    if (link.title) return link.title;
+    return this.getLinkTypeName(link.type);
   }
 
   // Step 4: GitHub
@@ -627,9 +704,10 @@ export class CreateProfileComponent {
       name: this.name,
       jobTitle: this.jobTitle || undefined,
       bio: this.bio || undefined,
+      avatarUrl: this.avatarUrl || undefined,
       githubUrl: this.githubUsername ? `github.com/${this.githubUsername}` : undefined,
       cvUrl: this.cvUrl || undefined,
-      links: this.links.filter(l => l.url && l.title),
+      links: this.links.filter(l => l.url),
       featuredRepos: this.selectedRepos().map(repo => ({
         name: repo.name,
         description: repo.description || undefined,

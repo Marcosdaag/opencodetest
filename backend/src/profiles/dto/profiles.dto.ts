@@ -20,10 +20,11 @@ export class CreateLinkDto {
   @MaxLength(500)
   url: string;
 
-  @ApiProperty({ maxLength: 100 })
+  @ApiPropertyOptional({ maxLength: 100, description: 'Requerido solo para tipo CUSTOM' })
+  @IsOptional()
   @IsString()
   @MaxLength(100)
-  title: string;
+  title?: string;
 }
 
 export class CreateFeaturedRepoDto {
@@ -70,6 +71,11 @@ export class CreateProfileDto {
   @IsString()
   @MaxLength(800)
   bio?: string;
+
+  @ApiPropertyOptional({ description: 'URL de la imagen de perfil' })
+  @IsOptional()
+  @IsString()
+  avatarUrl?: string;
 
   @ApiPropertyOptional({ example: 'github.com/marcosdev', description: 'Debe ser URL de perfil de usuario' })
   @IsOptional()
