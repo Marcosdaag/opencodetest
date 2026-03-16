@@ -5,16 +5,14 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 @Injectable()
 export class StorageService {
   private readonly supabase: SupabaseClient;
-  private readonly cvBucketName: string;
-  private readonly avatarBucketName: string;
+  private readonly bucketName: string;
 
   constructor(private readonly configService: ConfigService) {
     const supabaseUrl = this.configService.get<string>('SUPABASE_URL')!;
-    const supabaseKey = this.configService.get<string>('SUPABASE_ANON_KEY')!;
-    this.cvBucketName = this.configService.get<string>('SUPABASE_STORAGE_BUCKET') || 'cvs';
-    this.avatarBucketName = this.configService.get<string>('SUPABASE_AVATARS_BUCKET') || 'avatars';
+    const serviceKey = this.configService.get<string>('SUPABASE_SERVICE_KEY')!;
+    this.bucketName = this.configService.get<string>('SUPABASE_STORAGE_BUCKET') || 'cv';
     
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabase = createClient(supabaseUrl, serviceKey);
   }
 
   async uploadCV(file: Buffer, filename: string, contentType: string): Promise<string> {
@@ -27,7 +25,7 @@ export class StorageService {
     const path = `cvs/${timestamp}-${sanitizedFilename}`;
 
     const { data, error } = await this.supabase.storage
-      .from(this.cvBucketName)
+      .from(this.bucketName)
       .upload(path, file, {
         contentType,
         cacheControl: '3600',
@@ -39,17 +37,17 @@ export class StorageService {
     }
 
     const { data: urlData } = this.supabase.storage
-      .from(this.cvBucketName)
+      .from(this.bucketName)
       .getPublicUrl(path);
 
     return urlData.publicUrl;
   }
 
   async deleteCV(url: string): Promise<void> {
-    const path = url.replace(/.*\/storage\/v1\/object\/public\/cvs\//, '');
+    const path = url.replace(/.*\/storage\/v1\/object\/public\/cv\//, '');
     
     const { error } = await this.supabase.storage
-      .from(this.cvBucketName)
+      .from(this.bucketName)
       .remove([path]);
 
     if (error) {
@@ -68,7 +66,7 @@ export class StorageService {
     const path = `avatars/${timestamp}-${sanitizedFilename}`;
 
     const { data, error } = await this.supabase.storage
-      .from(this.avatarBucketName)
+      .from(this.bucketName)
       .upload(path, file, {
         contentType,
         cacheControl: '3600',
@@ -80,7 +78,7 @@ export class StorageService {
     }
 
     const { data: urlData } = this.supabase.storage
-      .from(this.avatarBucketName)
+      .from(this.bucketName)
       .getPublicUrl(path);
 
     return urlData.publicUrl;
