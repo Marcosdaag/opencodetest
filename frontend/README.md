@@ -12,6 +12,7 @@ Frontend de la aplicación devtreekz, una plataforma tipo LinkTree diseñada esp
 - 🔍 Búsqueda en tiempo real de repositorios GitHub
 - 📄 Subida de CV en PDF con drag & drop
 - 🖼️ Avatar de perfil (JPG, PNG, WEBP)
+- 📱 Código QR automático con descarga en PNG/SVG
 - ✨ Animaciones y transiciones suaves
 
 ## Requisitos

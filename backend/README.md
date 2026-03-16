@@ -80,6 +80,7 @@ El servidor estará disponible en `http://localhost:3000/api`
 | POST | `/profiles` | Crear un nuevo perfil (inmutable) |
 | GET | `/profiles/:username` | Obtener perfil público completo |
 | GET | `/profiles/:username/links` | Obtener solo los links de un perfil |
+| GET | `/profiles/:username/qr` | Obtener código QR del perfil |
 
 #### Ejemplo: Crear perfil
 

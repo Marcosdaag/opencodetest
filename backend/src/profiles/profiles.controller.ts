@@ -42,4 +42,13 @@ export class ProfilesController {
   async getLinks(@Param('username') username: string) {
     return this.profilesService.getLinksByUsername(username);
   }
+
+  @Get(':username/qr')
+  @ApiOperation({ summary: 'Obtener código QR del perfil' })
+  @ApiParam({ name: 'username', description: 'Username del perfil' })
+  @ApiResponse({ status: 200, description: 'QR del perfil' })
+  @ApiResponse({ status: 404, description: 'QR no encontrado' })
+  async getProfileQR(@Param('username') username: string) {
+    return this.profilesService.getProfileQR(username);
+  }
 }

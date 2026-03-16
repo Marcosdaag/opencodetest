@@ -28,6 +28,7 @@ export interface Profile {
   githubUsername: string | null;
   linkedinUrl: string | null;
   cvUrl: string | null;
+  qrCodeUrl: string | null;
   createdAt: string;
   links: Link[];
   githubRepos: FeaturedRepo[];

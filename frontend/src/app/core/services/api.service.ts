@@ -25,4 +25,8 @@ export class ApiService {
   getLinks(username: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/profiles/${username}/links`);
   }
+
+  getProfileQR(username: string): Observable<{ qrCodeUrl: string }> {
+    return this.http.get<{ qrCodeUrl: string }>(`${this.baseUrl}/profiles/${username}/qr`);
+  }
 }

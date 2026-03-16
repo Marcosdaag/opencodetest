@@ -18,6 +18,7 @@ model Profile {
   githubUsername String?
   linkedinUrl  String?
   cvUrl        String?
+  qrCodeUrl    String?
   links        Link[]
   githubRepos  FeaturedRepo[]
   createdAt    DateTime       @default(now())

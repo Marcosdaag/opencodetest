@@ -2,6 +2,7 @@ import { Injectable, BadRequestException, NotFoundException } from '@nestjs/comm
 import { ProfilesRepository } from './profiles.repository';
 import { CreateProfileDto, UsernameCheckDto, LinkType } from './dto/profiles.dto';
 import { Profile, Link, FeaturedRepo } from '@prisma/client';
+import * as QRCode from 'qrcode';
 
 export interface ProfileWithLinks extends Profile {
   links: Link[];
@@ -55,6 +56,17 @@ export class ProfilesService {
       stars: repo.stars || 0,
     })) || [];
 
+    const profileUrl = `https://devtreekz.com/${username}`;
+    const qrCodeDataUrl = await QRCode.toDataURL(profileUrl, {
+      width: 400,
+      margin: 2,
+      color: {
+        dark: '#0f172a',
+        light: '#ffffff'
+      },
+      errorCorrectionLevel: 'M'
+    });
+
     return this.profilesRepository.createProfile({
       username,
       name: dto.name,
@@ -64,6 +76,7 @@ export class ProfilesService {
       githubUsername,
       linkedinUrl: dto.linkedinUrl,
       cvUrl: dto.cvUrl,
+      qrCodeUrl: qrCodeDataUrl,
       links: {
         create: linksData,
       },
@@ -87,5 +100,16 @@ export class ProfilesService {
       throw new NotFoundException('Perfil no encontrado');
     }
     return profile.links;
+  }
+
+  async getProfileQR(username: string): Promise<{ qrCodeUrl: string }> {
+    const profile = await this.profilesRepository.findByUsername(username);
+    if (!profile) {
+      throw new NotFoundException('Perfil no encontrado');
+    }
+    if (!profile.qrCodeUrl) {
+      throw new NotFoundException('QR no encontrado');
+    }
+    return { qrCodeUrl: profile.qrCodeUrl };
   }
 }

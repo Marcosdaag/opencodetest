@@ -10,6 +10,7 @@ Plataforma tipo LinkTree diseñada específicamente para programadores freelance
 - 📄 Subida de CV en PDF y avatar de perfil
 - ⚡ Perfiles inmutables - una vez creados no se pueden editar
 - 📚 Documentación completa con Swagger
+- 📱 Código QR automático para cada perfil (descargable en PNG/SVG)
 
 ## Estructura del Proyecto
 

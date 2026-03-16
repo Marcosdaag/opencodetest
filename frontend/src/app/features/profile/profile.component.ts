@@ -136,6 +136,40 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             </div>
           }
 
+          <!-- QR Section -->
+          @if (profile()!.qrCodeUrl) {
+            <div class="mb-8">
+              <h2 class="text-lg font-semibold text-theme-primary mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                </svg>
+                Código QR
+              </h2>
+              
+              <div class="card-static flex flex-col items-center">
+                <div class="bg-white p-4 rounded-xl mb-4">
+                  <img [src]="profile()!.qrCodeUrl" alt="QR Code" class="w-40 h-40">
+                </div>
+                
+                <div class="flex gap-3">
+                  <button (click)="downloadQR('png')" class="btn-primary text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    PNG
+                  </button>
+                  <button (click)="downloadQR('svg')" class="btn-secondary text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    SVG
+                  </button>
+                </div>
+                <p class="text-theme-secondary text-xs mt-3">Escanea o descarga para compartir</p>
+              </div>
+            </div>
+          }
+
           <!-- Share Section -->
           <div class="mt-12 pt-8 border-t border-theme">
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -216,5 +250,39 @@ export class ProfileComponent implements OnInit {
       this.linkCopied.set(true);
       setTimeout(() => this.linkCopied.set(false), 2000);
     });
+  }
+
+  downloadQR(format: 'png' | 'svg') {
+    const qrUrl = this.profile()?.qrCodeUrl;
+    if (!qrUrl) return;
+
+    if (format === 'svg') {
+      const svgContent = this.convertDataURLToSVG(qrUrl);
+      const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      this.triggerDownload(url, `${this.profile()?.username}-qr.svg`);
+      URL.revokeObjectURL(url);
+    } else {
+      this.triggerDownload(qrUrl, `${this.profile()?.username}-qr.png`);
+    }
+  }
+
+  private convertDataURLToSVG(dataUrl: string): string {
+    const img = new Image();
+    img.src = dataUrl;
+    
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+      <rect fill="white" width="400" height="400"/>
+      <image href="${dataUrl}" x="0" y="0" width="400" height="400"/>
+    </svg>`;
+  }
+
+  private triggerDownload(url: string, filename: string) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }
