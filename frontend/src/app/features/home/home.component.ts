@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
             </div>
             
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-theme-primary mb-5 leading-tight">
-              Tu_link_personal
+              Devtreekz
               <span class="block gradient-text">para devs</span>
             </h1>
             
