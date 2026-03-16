@@ -182,10 +182,10 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                     <div class="bg-theme-secondary/50 rounded-lg p-3">
                       <div class="flex items-center gap-2 mb-2">
                         <select [(ngModel)]="link.type" class="input-field text-xs py-1.5 w-32">
-                          <option value="PORTFOLIO">🌐 Portfolio</option>
-                          <option value="LINKEDIN">💼 LinkedIn</option>
-                          <option value="GITHUB">💻 GitHub</option>
-                          <option value="CV">📄 CV</option>
+                          <option value="PORTFOLIO" [disabled]="hasLinkType('PORTFOLIO')">🌐 Portfolio</option>
+                          <option value="LINKEDIN" [disabled]="hasLinkType('LINKEDIN')">💼 LinkedIn</option>
+                          <option value="GITHUB" [disabled]="hasLinkType('GITHUB')">💻 GitHub</option>
+                          <option value="CV" [disabled]="hasLinkType('CV')">📄 CV</option>
                           <option value="CUSTOM">✨ Personalizado</option>
                         </select>
                         @if (link.type === 'CUSTOM') {
@@ -220,8 +220,15 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  Agregar link
+                  @if (links.length === 0) {
+                    Agregar link
+                  } @else {
+                    + Personalizado
+                  }
                 </button>
+                @if (links.length >= 4) {
+                  <p class="text-theme-secondary text-xs text-center mt-2">Máximo 1 de cada tipo (Portfolio, LinkedIn, GitHub, CV) + ilimitados personalizados</p>
+                }
               </div>
             }
             
@@ -561,7 +568,19 @@ export class CreateProfileComponent {
 
   // Step 3: Links
   addLink() {
+    // Agregar un link CUSTOM por defecto (ya que es el único que permite múltiples)
     this.links.push({ type: 'CUSTOM', url: '', title: '' });
+  }
+
+  hasLinkType(type: LinkType): boolean {
+    return this.links.some(link => link.type === type);
+  }
+
+  canAddLinkType(type: LinkType): boolean {
+    // CUSTOM siempre se puede agregar
+    if (type === 'CUSTOM') return true;
+    // Los demás tipos solo se pueden agregar una vez
+    return !this.hasLinkType(type);
   }
 
   removeLink(index: number) {

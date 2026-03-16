@@ -32,6 +32,15 @@ export class ProfilesService {
       throw new BadRequestException('El username ya está en uso');
     }
 
+    // Validar que no haya links duplicados (excepto CUSTOM)
+    if (dto.links && dto.links.length > 0) {
+      const nonCustomTypes = dto.links.filter(l => l.type !== 'CUSTOM').map(l => l.type);
+      const uniqueTypes = new Set(nonCustomTypes);
+      if (uniqueTypes.size !== nonCustomTypes.length) {
+        throw new BadRequestException('Solo puedes agregar un link de cada tipo (Portfolio, LinkedIn, GitHub, CV). Usa links personalizados para agregar más.');
+      }
+    }
+
     const username = dto.username.toLowerCase();
     let githubUsername: string | undefined;
 
