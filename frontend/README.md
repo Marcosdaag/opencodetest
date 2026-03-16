@@ -1,16 +1,17 @@
-# FreeLink - Frontend
+# devtreekz - Frontend
 
-Frontend de la aplicación FreeLink, una plataforma tipo LinkTree diseñada específicamente para programadores freelance.
+Frontend de la aplicación devtreekz, una plataforma tipo LinkTree diseñada específicamente para programadores freelance.
 
 ## Características
 
-- 🎨 Diseño moderno con paleta de colores inspirada en VS Code
+- 🎨 Diseño moderno con paleta de colores inspirada en VS Code + púrpura
 - 📱 Fully responsive - se adapta a todos los dispositivos
 - ⚡ Angular 20 con standalone components
 - 🎯 Flujo de usuario intuitivo con wizard de 6 pasos
 - 🔗 Integración completa con la API del backend
 - 🔍 Búsqueda en tiempo real de repositorios GitHub
 - 📄 Subida de CV en PDF con drag & drop
+- 🖼️ Avatar de perfil (JPG, PNG, WEBP)
 - ✨ Animaciones y transiciones suaves
 
 ## Requisitos
@@ -72,8 +73,8 @@ src/
 1. **Landing Page**: Introducción y call-to-action
 2. **Crear Perfil** (Wizard de 6 pasos):
    - Paso 1: Elegir username único
-   - Paso 2: Información personal (nombre, título, bio)
-   - Paso 3: Agregar links (portfolio, LinkedIn, etc.)
+   - Paso 2: Información personal + Avatar
+   - Paso 3: Agregar links (portfolio, LinkedIn, GitHub, CV, personalizado)
    - Paso 4: Conectar GitHub y seleccionar proyectos destacados
    - Paso 5: Subir CV en PDF
    - Paso 6: Vista previa antes de publicar
@@ -90,17 +91,6 @@ Para cambiar la URL, editar:
 - `src/app/core/services/github.service.ts`
 - `src/app/core/services/storage.service.ts`
 
-### Variables de Entorno
-
-Si necesitas configurar el entorno, puedes crear `src/environments/environment.ts`:
-
-```typescript
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api'
-};
-```
-
 ## Diseño Visual
 
 ### Paleta de Colores
@@ -111,6 +101,7 @@ export const environment = {
 | Primary | `#1e293b` | Cards, superficies |
 | Accent | `#3b82f6` | Botones, links |
 | Accent Light | `#60a5fa` | Hover states |
+| Purple | `#8b5cf6` | Gradientes, acentos |
 | Text | `#f8fafc` | Texto principal |
 | Text Secondary | `#94a3b8` | Texto secundario |
 
