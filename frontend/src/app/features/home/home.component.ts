@@ -9,14 +9,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="min-h-[calc(100vh-4rem)]">
       <!-- Hero Section -->
-      <section class="relative overflow-hidden">
-        <!-- Background Effects -->
-        <div class="absolute inset-0 overflow-hidden">
-          <div class="absolute -top-40 -right-40 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
-          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-accent-500/5 to-transparent rounded-full"></div>
-        </div>
-
+      <section class="relative">
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div class="text-center animate-stagger">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-500/10 border border-accent-500/30 text-accent-400 text-sm mb-5">

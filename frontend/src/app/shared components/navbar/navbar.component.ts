@@ -11,10 +11,10 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-14">
           <a routerLink="/" class="flex items-center gap-2 group">
-            <div class="w-8 h-8 bg-gradient-to-br from-accent-500 to-purple-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-              <span class="text-white font-bold text-sm">D</span>
-            </div>
-            <span class="text-xl font-bold text-theme-primary">devtreekz</span>
+            <img src="assets/logo.svg" alt="devtreekz" class="w-8 h-8 group-hover:scale-110 transition-transform">
+            <span class="text-xl font-bold bg-gradient-to-r from-accent-400 to-purple-400 bg-clip-text text-transparent">
+              devtreekz
+            </span>
           </a>
           
           <div class="hidden md:flex items-center gap-4">
