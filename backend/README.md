@@ -66,6 +66,7 @@ El servidor estará disponible en `http://localhost:3000/api`
 | `DATABASE_URL` | URL de conexión a Supabase (pooler) | `postgresql://...` |
 | `DIRECT_URL` | URL directa a Supabase (para migraciones) | `postgresql://...` |
 | `PORT` | Puerto del servidor | `3000` |
+| `FRONTEND_URL` | URL del frontend para generar QR codes | `https://devtreekz.vercel.app` |
 | `SUPABASE_URL` | URL del proyecto Supabase | `https://xxx.supabase.co` |
 | `SUPABASE_ANON_KEY` | Clave pública de Supabase | `sb_publishable_...` |
 | `SUPABASE_SERVICE_KEY` | Clave privada de Supabase (uploads) | `sb_secret_...` |

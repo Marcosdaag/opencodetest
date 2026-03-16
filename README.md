@@ -170,6 +170,9 @@ DATABASE_URL="postgresql://..."
 DIRECT_URL="postgresql://..."
 PORT=3000
 
+# Frontend URL para generación de QR
+FRONTEND_URL="https://tu-dominio.vercel.app"
+
 # Supabase
 SUPABASE_URL="https://tu-proyecto.supabase.co"
 SUPABASE_ANON_KEY="sb_publishable_..."

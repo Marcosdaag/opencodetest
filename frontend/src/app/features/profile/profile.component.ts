@@ -1,6 +1,23 @@
+/**
+ * Componente ProfileComponent
+ * 
+ * Este componente muestra la página pública de un perfil de usuario.
+ * Permite visualizar:
+ * - Información del perfil (nombre, avatar, bio, job title)
+ * - Links externos (portfolio, linkedin, github, cv, personalizados)
+ * - Proyectos destacados de GitHub
+ * - Código QR para compartir el perfil
+ * - Opciones para compartir en redes sociales
+ * 
+ * También configura meta tags dinámicos para SEO (title, description, Open Graph, Twitter Cards)
+ * y datos estructurados JSON-LD para mejorar el posicionamiento en buscadores.
+ */
+
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+// Title y Meta son servicios de Angular para manipular los meta tags del documento HTML
+// Se usan para SEO: title dinámico, description, Open Graph, Twitter Cards
 import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
 import { Profile } from '../../core/models/profile.model';
@@ -233,15 +250,28 @@ export class ProfileComponent implements OnInit {
   notFound = signal(false);
   linkCopied = signal(false);
 
+  /**
+   * Obtiene la URL completa actual del perfil para compartir
+   * Utilizada por el botón de copiar enlace y opciones de share
+   */
   get shareUrl(): string {
     return window.location.href;
   }
 
+  /**
+   * Genera la URL para compartir el perfil en Twitter/X
+   * Formatea el mensaje y la URL para el intent de Twitter
+   */
   get twitterShareUrl(): string {
     return `https://twitter.com/intent/tweet?text=Mira%20este%20perfil&url=${encodeURIComponent(this.shareUrl)}`;
   }
 
+  /**
+   * ngOnInit - Se ejecuta al inicializar el componente
+   * Obtiene el username de la URL y carga los datos del perfil
+   */
   ngOnInit() {
+    // Obtiene el username desde los parámetros de la ruta (ej: /marcosdev)
     const username = this.route.snapshot.paramMap.get('username');
     if (username) {
       this.loadProfile(username);
@@ -251,11 +281,17 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * loadProfile - Carga los datos del perfil desde la API
+   * Actualiza los estados de loading, notFound y profile
+   * Llama a updateSEO para configurar los meta tags dinámicos
+   */
   loadProfile(username: string) {
     this.api.getProfile(username).subscribe({
       next: (profile) => {
         this.profile.set(profile);
         this.loading.set(false);
+        // Configura los meta tags de SEO con los datos del perfil
         this.updateSEO(profile);
       },
       error: () => {
@@ -265,24 +301,35 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * updateSEO - Configura los meta tags para SEO y redes sociales
+   * 
+   * Esta función es crucial para el SEO del perfil, ya que:
+   * - Configura el título de la página (visible en pestañas del navegador)
+   * - Configura la descripción para buscadores (Google, Bing)
+   * - Configura Open Graph para Facebook, WhatsApp, LinkedIn
+   * - Configura Twitter Cards para Twitter/X
+   * 
+   * @param profile - Datos del perfil para generar los meta tags
+   */
   private updateSEO(profile: Profile): void {
     const profileUrl = `https://devtreekz.vercel.app/${profile.username}`;
     const defaultImage = 'https://devtreekz.vercel.app/icon.png';
     
-    // Title
+    // Title - Título que aparece en la pestaña del navegador
     this.title.setTitle(`${profile.name} - devtreekz`);
     
-    // Meta tags
+    // Meta description - Descripción para buscadores
     this.meta.updateTag({ name: 'description', content: profile.bio || `Perfil profesional de ${profile.name}${profile.jobTitle ? ` - ${profile.jobTitle}` : ''}` });
     
-    // Open Graph
+    // Open Graph - Para Facebook, WhatsApp, LinkedIn (cuando se comparte el link)
     this.meta.updateTag({ property: 'og:title', content: `${profile.name} - devtreekz` });
     this.meta.updateTag({ property: 'og:description', content: profile.bio || `Mira el perfil profesional de ${profile.name}` });
     this.meta.updateTag({ property: 'og:url', content: profileUrl });
     this.meta.updateTag({ property: 'og:image', content: profile.avatarUrl || defaultImage });
     this.meta.updateTag({ property: 'og:type', content: 'profile' });
     
-    // Twitter Cards
+    // Twitter Cards - Para Twitter/X (cuando se comparte el link)
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.meta.updateTag({ name: 'twitter:title', content: `${profile.name} - devtreekz` });
     this.meta.updateTag({ name: 'twitter:description', content: profile.bio || `Mira el perfil profesional de ${profile.name}` });
@@ -290,6 +337,10 @@ export class ProfileComponent implements OnInit {
     this.meta.updateTag({ name: 'twitter:url', content: profileUrl });
   }
 
+  /**
+   * copyLink - Copia la URL del perfil al portapapeles
+   * Muestra un mensaje temporal de confirmación (2 segundos)
+   */
   copyLink() {
     navigator.clipboard.writeText(this.shareUrl).then(() => {
       this.linkCopied.set(true);
@@ -297,17 +348,28 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * downloadQR - Descarga el código QR del perfil
+   * 
+   * Soporta dos formatos:
+   * - PNG: Utiliza el DataURL directo del QR guardado en la base de datos
+   * - SVG: Convierte el DataURL a formato SVG para mejor calidad
+   * 
+   * @param format - Formato de descarga ('png' o 'svg')
+   */
   downloadQR(format: 'png' | 'svg') {
     const qrUrl = this.profile()?.qrCodeUrl;
     if (!qrUrl) return;
 
     if (format === 'svg') {
+      // Convierte el DataURL (PNG base64) a SVG envolviendo la imagen
       const svgContent = this.convertDataURLToSVG(qrUrl);
       const blob = new Blob([svgContent], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       this.triggerDownload(url, `${this.profile()?.username}-qr.svg`);
       URL.revokeObjectURL(url);
     } else {
+      // Descarga directamente el PNG
       this.triggerDownload(qrUrl, `${this.profile()?.username}-qr.png`);
     }
   }
