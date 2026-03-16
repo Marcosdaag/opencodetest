@@ -8,7 +8,7 @@ import { Profile, CreateProfileDto } from '../models/profile.model';
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:3000/api';
+  private baseUrl = 'https://opencodetest-l0bq.onrender.com/api';
 
   checkUsername(username: string): Observable<{ available: boolean }> {
     return this.http.get<{ available: boolean }>(`${this.baseUrl}/profiles/check/${username}`);
