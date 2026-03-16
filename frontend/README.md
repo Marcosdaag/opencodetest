@@ -75,7 +75,7 @@ src/
 2. **Crear Perfil** (Wizard de 6 pasos):
    - Paso 1: Elegir username único
    - Paso 2: Información personal + Avatar
-   - Paso 3: Agregar links (portfolio, LinkedIn, GitHub, CV, personalizado)
+   - Paso 3: Agregar links (1 Portfolio, 1 LinkedIn, 1 GitHub, 1 CV + ilimitados personalizados)
    - Paso 4: Conectar GitHub y seleccionar proyectos destacados
    - Paso 5: Subir CV en PDF
    - Paso 6: Vista previa antes de publicar

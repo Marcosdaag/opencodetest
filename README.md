@@ -98,6 +98,7 @@ npm start
 | POST | `/api/profiles` | Crear nuevo perfil (inmutable) |
 | GET | `/api/profiles/:username` | Obtener perfil público |
 | GET | `/api/profiles/:username/links` | Obtener solo los links |
+| GET | `/api/profiles/:username/qr` | Obtener código QR del perfil |
 
 #### GitHub
 
@@ -126,6 +127,7 @@ model Profile {
   githubUsername  String?
   linkedinUrl     String?
   cvUrl           String?
+  qrCodeUrl       String?
   links           Link[]
   githubRepos     FeaturedRepo[]
   createdAt       DateTime       @default(now())
@@ -163,13 +165,19 @@ enum LinkType {
 ### Variables de Entorno
 
 ```env
+# Base de datos (Supabase)
 DATABASE_URL="postgresql://..."
 DIRECT_URL="postgresql://..."
 PORT=3000
-SUPABASE_URL="https://..."
-SUPABASE_ANON_KEY="..."
-SUPABASE_STORAGE_BUCKET="cvs"
-GITHUB_TOKEN=""  # Opcional
+
+# Supabase
+SUPABASE_URL="https://tu-proyecto.supabase.co"
+SUPABASE_ANON_KEY="sb_publishable_..."
+SUPABASE_SERVICE_KEY="sb_secret_..."
+SUPABASE_STORAGE_BUCKET="cv"
+
+# GitHub (opcional para mayor rate limit)
+GITHUB_TOKEN=""
 ```
 
 ## Frontend
@@ -244,9 +252,9 @@ Perfil Público → /:username
 ### Supabase
 
 1. Crear proyecto en Supabase
-2. Configurar buckets de Storage:
-   - `cvs` - para CVs (PDF)
-   - `avatars` - para avatares (JPG, PNG, WEBP)
+2. Configurar bucket de Storage:
+   - `cv` - para CVs (PDF) y Avatares (JPG, PNG, WEBP)
+   - Usar subcarpetas: `cv/cvs/` y `cv/avatars/`
 3. Actualizar credenciales en `.env`
 
 ### Deployment

@@ -9,9 +9,10 @@ Backend desarrollado con NestJS, Prisma ORM y Supabase para una aplicación tipo
 - **Avatar de perfil**: Imagen JPG, PNG o WEBP (máx 4MB)
 - **Links restrictivos**:
   - **CV**: Documento PDF almacenado en Supabase Storage
-  - **Portfolio**: Cualquier URL
-  - **LinkedIn**: Debe ser una URL válida de perfil de LinkedIn
-  - **GitHub**: Debe ser una URL de perfil de GitHub (no repositorio)
+  - **Portfolio**: 1 por usuario
+  - **LinkedIn**: 1 por usuario
+  - **GitHub**: 1 por usuario
+  - **Custom (Personalizado)**: Ilimitados
 - **Integración con GitHub API**: Obtiene repositorios del usuario y permite filtrar en tiempo real para seleccionar proyectos destacados.
 
 ## Requisitos
@@ -19,7 +20,7 @@ Backend desarrollado con NestJS, Prisma ORM y Supabase para una aplicación tipo
 - Node.js 18+
 - npm o yarn
 - Base de datos PostgreSQL (Supabase)
-- Buckets de Supabase Storage: `cvs` (PDF) y `avatars` (imágenes)
+- Bucket de Supabase Storage: `cv` (PDFs e imágenes, usando subcarpetas)
 
 ## Instalación
 
@@ -66,8 +67,9 @@ El servidor estará disponible en `http://localhost:3000/api`
 | `DIRECT_URL` | URL directa a Supabase (para migraciones) | `postgresql://...` |
 | `PORT` | Puerto del servidor | `3000` |
 | `SUPABASE_URL` | URL del proyecto Supabase | `https://xxx.supabase.co` |
-| `SUPABASE_ANON_KEY` | Clave anónima de Supabase | `eyJ...` |
-| `SUPABASE_STORAGE_BUCKET` | Nombre del bucket de Storage | `cvs` |
+| `SUPABASE_ANON_KEY` | Clave pública de Supabase | `sb_publishable_...` |
+| `SUPABASE_SERVICE_KEY` | Clave privada de Supabase (uploads) | `sb_secret_...` |
+| `SUPABASE_STORAGE_BUCKET` | Nombre del bucket de Storage | `cv` |
 | `GITHUB_TOKEN` | Token de GitHub (opcional, para mayor rate limit) | `ghp_...` |
 
 ## Endpoints API
