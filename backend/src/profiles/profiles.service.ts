@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ProfilesRepository } from './profiles.repository';
 import { CreateProfileDto, UsernameCheckDto, LinkType } from './dto/profiles.dto';
 import { Profile, Link, FeaturedRepo } from '@prisma/client';
@@ -19,7 +20,10 @@ const DEFAULT_TITLES: Record<LinkType, string> = {
 
 @Injectable()
 export class ProfilesService {
-  constructor(private readonly profilesRepository: ProfilesRepository) {}
+  constructor(
+    private readonly profilesRepository: ProfilesRepository,
+    private readonly configService: ConfigService
+  ) {}
 
   async checkUsername(username: string): Promise<{ available: boolean }> {
     const exists = await this.profilesRepository.usernameExists(username);
@@ -65,7 +69,8 @@ export class ProfilesService {
       stars: repo.stars || 0,
     })) || [];
 
-    const profileUrl = `https://devtreekz.com/${username}`;
+    const frontendUrl = this.configService.get<string>('FRONTEND_URL') || 'https://devtreekz.vercel.app';
+    const profileUrl = `${frontendUrl}/${username}`;
     const qrCodeDataUrl = await QRCode.toDataURL(profileUrl, {
       width: 400,
       margin: 2,
