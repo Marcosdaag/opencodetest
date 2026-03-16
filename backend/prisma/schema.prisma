@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Profile {
+  id           String         @id @default(uuid())
+  username     String         @unique
+  name         String
+  jobTitle     String?
+  bio          String?
+  githubUsername String?
+  linkedinUrl  String?
+  cvUrl        String?
+  links        Link[]
+  githubRepos  FeaturedRepo[]
+  createdAt    DateTime       @default(now())
+}
+
+model Link {
+  id        String   @id @default(uuid())
+  type      LinkType
+  url       String
+  title     String
+  order     Int      @default(0)
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+model FeaturedRepo {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  url         String
+  stars       Int      @default(0)
+  profileId   String
+  profile     Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+enum LinkType {
+  CV
+  PORTFOLIO
+  LINKEDIN
+  GITHUB
+  CUSTOM
+}
