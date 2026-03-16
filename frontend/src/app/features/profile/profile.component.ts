@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import { ApiService } from '../../core/services/api.service';
 import { Profile } from '../../core/models/profile.model';
 import { LinkCardComponent } from '../../shared components/link-card/link-card.component';
@@ -30,6 +31,22 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           </a>
         </div>
       } @else if (profile()) {
+        <!-- JSON-LD Structured Data -->
+        @if (profile()) {
+          <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "{{ profile()!.name }}",
+              "url": "https://devtreekz.vercel.app/{{ profile()!.username }}",
+              "jobTitle": "{{ profile()!.jobTitle || '' }}",
+              "description": "{{ profile()!.bio || '' }}"
+              @if (profile()!.avatarUrl) {
+                ,"image": "{{ profile()!.avatarUrl }}"
+              }
+            }
+          </script>
+        }
         <div class="max-w-2xl mx-auto animate-fade-up">
           <!-- Profile Header -->
           <div class="text-center mb-8">
@@ -208,6 +225,8 @@ export class ProfileComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private api = inject(ApiService);
+  private title = inject(Title);
+  private meta = inject(Meta);
   
   profile = signal<Profile | null>(null);
   loading = signal(true);
@@ -237,12 +256,38 @@ export class ProfileComponent implements OnInit {
       next: (profile) => {
         this.profile.set(profile);
         this.loading.set(false);
+        this.updateSEO(profile);
       },
       error: () => {
         this.loading.set(false);
         this.notFound.set(true);
       }
     });
+  }
+
+  private updateSEO(profile: Profile): void {
+    const profileUrl = `https://devtreekz.vercel.app/${profile.username}`;
+    const defaultImage = 'https://devtreekz.vercel.app/icon.png';
+    
+    // Title
+    this.title.setTitle(`${profile.name} - devtreekz`);
+    
+    // Meta tags
+    this.meta.updateTag({ name: 'description', content: profile.bio || `Perfil profesional de ${profile.name}${profile.jobTitle ? ` - ${profile.jobTitle}` : ''}` });
+    
+    // Open Graph
+    this.meta.updateTag({ property: 'og:title', content: `${profile.name} - devtreekz` });
+    this.meta.updateTag({ property: 'og:description', content: profile.bio || `Mira el perfil profesional de ${profile.name}` });
+    this.meta.updateTag({ property: 'og:url', content: profileUrl });
+    this.meta.updateTag({ property: 'og:image', content: profile.avatarUrl || defaultImage });
+    this.meta.updateTag({ property: 'og:type', content: 'profile' });
+    
+    // Twitter Cards
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: `${profile.name} - devtreekz` });
+    this.meta.updateTag({ name: 'twitter:description', content: profile.bio || `Mira el perfil profesional de ${profile.name}` });
+    this.meta.updateTag({ name: 'twitter:image', content: profile.avatarUrl || defaultImage });
+    this.meta.updateTag({ name: 'twitter:url', content: profileUrl });
   }
 
   copyLink() {
