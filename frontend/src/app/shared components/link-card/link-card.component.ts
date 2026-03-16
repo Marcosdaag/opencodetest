@@ -35,15 +35,15 @@ import { Link, LinkType } from '../../core/models/profile.model';
       </div>
       
       <div class="flex-1 min-w-0">
-        <h3 class="text-white font-semibold truncate group-hover:text-accent-400 transition-colors">
+        <h3 class="text-theme-primary font-semibold truncate group-hover:text-accent-400 transition-colors">
           {{ link.title }}
         </h3>
-        <p class="text-slate-400 text-sm truncate">
+        <p class="text-theme-secondary text-sm truncate">
           {{ getTypeLabel() }}
         </p>
       </div>
       
-      <svg class="w-5 h-5 text-slate-500 group-hover:text-accent-400 transition-colors group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-5 h-5 text-theme-secondary group-hover:text-accent-400 transition-colors group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </a>

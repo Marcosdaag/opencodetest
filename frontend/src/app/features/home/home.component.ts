@@ -24,12 +24,12 @@ import { CommonModule } from '@angular/common';
               🚀 100% Gratis · Sin registro · Instantáneo
             </div>
             
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-theme-primary mb-5 leading-tight">
               Tu_link_personal
               <span class="block gradient-text">para devs</span>
             </h1>
             
-            <p class="text-base md:text-lg text-slate-400 max-w-xl mx-auto mb-8">
+            <p class="text-base md:text-lg text-theme-secondary max-w-xl mx-auto mb-8">
               Crea tu página profesional con un solo link. Comparte tu CV, portfolio, 
               GitHub y más. Todo en un solo lugar. 🌟
             </p>
@@ -44,31 +44,31 @@ import { CommonModule } from '@angular/common';
           <!-- Preview Mockup -->
           <div class="mt-16 relative animate-fade-up" style="animation-delay: 0.3s">
             <div class="max-w-xs mx-auto">
-              <div class="bg-primary-800 rounded-2xl p-5 border border-primary-700 shadow-2xl shadow-accent-500/10">
+              <div class="bg-theme-secondary rounded-2xl p-5 border border-theme shadow-2xl shadow-accent-500/10">
                 <!-- Profile Header -->
                 <div class="text-center mb-4">
                   <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-xl font-bold text-white mb-2 shadow-lg shadow-accent-500/30">
                     M
                   </div>
-                  <h3 class="text-white font-semibold">Marcos Developer</h3>
+                  <h3 class="text-theme-primary font-semibold">Marcos Developer</h3>
                   <p class="text-accent-400 text-xs">Full Stack Developer</p>
                 </div>
                 
                 <!-- Links -->
                 <div class="space-y-2">
-                  <div class="bg-primary-700/50 rounded-lg p-2.5 flex items-center gap-2">
+                  <div class="bg-theme-tertiary rounded-lg p-2.5 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-sm">🌐</div>
-                    <span class="text-white text-sm">Mi Portfolio</span>
+                    <span class="text-theme-primary text-sm">Mi Portfolio</span>
                   </div>
                   
-                  <div class="bg-primary-700/50 rounded-lg p-2.5 flex items-center gap-2">
+                  <div class="bg-theme-tertiary rounded-lg p-2.5 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-sm">💼</div>
-                    <span class="text-white text-sm">LinkedIn</span>
+                    <span class="text-theme-primary text-sm">LinkedIn</span>
                   </div>
                   
-                  <div class="bg-primary-700/50 rounded-lg p-2.5 flex items-center gap-2">
+                  <div class="bg-theme-tertiary rounded-lg p-2.5 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center text-sm">💻</div>
-                    <span class="text-white text-sm">GitHub</span>
+                    <span class="text-theme-primary text-sm">GitHub</span>
                   </div>
                 </div>
               </div>
@@ -78,13 +78,13 @@ import { CommonModule } from '@angular/common';
       </section>
 
       <!-- Features Section -->
-      <section class="py-14 bg-primary-800/50">
+      <section class="py-14 bg-theme-secondary/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-10">
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
+            <h2 class="text-2xl md:text-3xl font-bold text-theme-primary mb-3">
               ¿Por qué <span class="gradient-text">devtreekz</span>?
             </h2>
-            <p class="text-slate-400 text-sm max-w-lg mx-auto">
+            <p class="text-theme-secondary text-sm max-w-lg mx-auto">
               La herramienta perfecta para freelancers que quieren mostrar su trabajo de forma profesional
             </p>
           </div>
@@ -96,8 +96,8 @@ import { CommonModule } from '@angular/common';
                      [ngClass]="feature.iconBg">
                   <span [innerHTML]="feature.icon" class="text-xl"></span>
                 </div>
-                <h3 class="text-base font-semibold text-white mb-1">{{ feature.title }}</h3>
-                <p class="text-slate-400 text-sm">{{ feature.description }}</p>
+                <h3 class="text-base font-semibold text-theme-primary mb-1">{{ feature.title }}</h3>
+                <p class="text-theme-secondary text-sm">{{ feature.description }}</p>
               </div>
             }
           </div>
@@ -108,10 +108,10 @@ import { CommonModule } from '@angular/common';
       <section class="py-14">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div class="card-static gradient-border p-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
+            <h2 class="text-2xl md:text-3xl font-bold text-theme-primary mb-3">
               ¿Listo para destacar? ✨
             </h2>
-            <p class="text-slate-400 text-sm mb-6 max-w-sm mx-auto">
+            <p class="text-theme-secondary text-sm mb-6 max-w-sm mx-auto">
               Crea tu perfil en menos de 2 minutos. Sin registro, sin complicaciones.
             </p>
             <a routerLink="/create" class="btn-primary text-base px-8 py-3 inline-flex items-center gap-2">

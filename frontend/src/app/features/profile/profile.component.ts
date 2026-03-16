@@ -18,13 +18,13 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
         </div>
       } @else if (notFound()) {
         <div class="max-w-md mx-auto text-center py-20">
-          <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-primary-800 flex items-center justify-center">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-theme-secondary flex items-center justify-center">
             <svg class="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h1 class="text-2xl font-bold text-white mb-2">Perfil no encontrado</h1>
-          <p class="text-slate-400 mb-6">El perfil que buscas no existe o ha sido eliminado.</p>
+          <h1 class="text-2xl font-bold text-theme-primary mb-2">Perfil no encontrado</h1>
+          <p class="text-theme-secondary mb-6">El perfil que buscas no existe o ha sido eliminado.</p>
           <a routerLink="/" class="btn-primary">
             Volver al inicio
           </a>
@@ -33,22 +33,27 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
         <div class="max-w-2xl mx-auto animate-fade-up">
           <!-- Profile Header -->
           <div class="text-center mb-8">
-            <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center text-3xl font-bold text-white mb-4 shadow-lg shadow-accent-500/20">
-              {{ profile()!.name.charAt(0).toUpperCase() }}
-            </div>
-            <h1 class="text-3xl font-bold text-white mb-1">{{ profile()!.name }}</h1>
+            <!-- Avatar -->
+            @if (profile()!.avatarUrl) {
+              <img [src]="profile()!.avatarUrl" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 shadow-lg shadow-accent-500/20">
+            } @else {
+              <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-accent-400 to-accent-600 flex items-center justify-center text-3xl font-bold text-theme-primary mb-4 shadow-lg shadow-accent-500/20">
+                {{ profile()!.name.charAt(0).toUpperCase() }}
+              </div>
+            }
+            <h1 class="text-3xl font-bold text-theme-primary mb-1">{{ profile()!.name }}</h1>
             @if (profile()!.jobTitle) {
               <p class="text-accent-400 text-lg mb-3">{{ profile()!.jobTitle }}</p>
             }
             @if (profile()!.bio) {
-              <p class="text-slate-400 max-w-lg mx-auto">{{ profile()!.bio }}</p>
+              <p class="text-theme-secondary max-w-lg mx-auto">{{ profile()!.bio }}</p>
             }
           </div>
 
           <!-- Links Section -->
           @if (profile()!.links.length > 0) {
             <div class="mb-8">
-              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 class="text-lg font-semibold text-theme-primary mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                 </svg>
@@ -65,7 +70,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           <!-- GitHub Section -->
           @if (profile()!.githubRepos.length > 0 || profile()!.githubUsername) {
             <div class="mb-8">
-              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 class="text-lg font-semibold text-theme-primary mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                 </svg>
@@ -80,17 +85,17 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                     class="card group cursor-pointer"
                   >
                     <div class="flex items-start justify-between gap-2 mb-2">
-                      <h3 class="text-white font-semibold group-hover:text-accent-400 transition-colors truncate">
+                      <h3 class="text-theme-primary font-semibold group-hover:text-accent-400 transition-colors truncate">
                         {{ repo.name }}
                       </h3>
-                      <div class="flex items-center gap-1 text-slate-400 text-sm shrink-0">
+                      <div class="flex items-center gap-1 text-theme-secondary text-sm shrink-0">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                         </svg>
                         {{ repo.stars }}
                       </div>
                     </div>
-                    <p class="text-slate-400 text-sm line-clamp-2">
+                    <p class="text-theme-secondary text-sm line-clamp-2">
                       {{ repo.description || 'Sin descripción' }}
                     </p>
                   </a>
@@ -102,7 +107,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           <!-- CV Section -->
           @if (profile()!.cvUrl) {
             <div class="mb-8">
-              <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 class="text-lg font-semibold text-theme-primary mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -119,10 +124,10 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                   </svg>
                 </div>
                 <div class="flex-1">
-                  <h3 class="text-white font-semibold group-hover:text-accent-400 transition-colors">
+                  <h3 class="text-theme-primary font-semibold group-hover:text-accent-400 transition-colors">
                     Descargar CV
                   </h3>
-                  <p class="text-slate-400 text-sm">Documento PDF</p>
+                  <p class="text-theme-secondary text-sm">Documento PDF</p>
                 </div>
                 <svg class="w-5 h-5 text-slate-500 group-hover:text-accent-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -132,9 +137,9 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           }
 
           <!-- Share Section -->
-          <div class="mt-12 pt-8 border-t border-primary-700">
+          <div class="mt-12 pt-8 border-t border-theme">
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <p class="text-slate-400">Comparte este perfil:</p>
+              <p class="text-theme-secondary">Comparte este perfil:</p>
               <div class="flex gap-2">
                 <button (click)="copyLink()" class="btn-ghost flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -5,12 +5,14 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 @Injectable()
 export class StorageService {
   private readonly supabase: SupabaseClient;
-  private readonly bucketName: string;
+  private readonly cvBucketName: string;
+  private readonly avatarBucketName: string;
 
   constructor(private readonly configService: ConfigService) {
     const supabaseUrl = this.configService.get<string>('SUPABASE_URL')!;
     const supabaseKey = this.configService.get<string>('SUPABASE_ANON_KEY')!;
-    this.bucketName = this.configService.get<string>('SUPABASE_STORAGE_BUCKET') || 'cvs';
+    this.cvBucketName = this.configService.get<string>('SUPABASE_STORAGE_BUCKET') || 'cvs';
+    this.avatarBucketName = this.configService.get<string>('SUPABASE_AVATARS_BUCKET') || 'avatars';
     
     this.supabase = createClient(supabaseUrl, supabaseKey);
   }
@@ -25,7 +27,7 @@ export class StorageService {
     const path = `cvs/${timestamp}-${sanitizedFilename}`;
 
     const { data, error } = await this.supabase.storage
-      .from(this.bucketName)
+      .from(this.cvBucketName)
       .upload(path, file, {
         contentType,
         cacheControl: '3600',
@@ -37,7 +39,7 @@ export class StorageService {
     }
 
     const { data: urlData } = this.supabase.storage
-      .from(this.bucketName)
+      .from(this.cvBucketName)
       .getPublicUrl(path);
 
     return urlData.publicUrl;
@@ -47,7 +49,7 @@ export class StorageService {
     const path = url.replace(/.*\/storage\/v1\/object\/public\/cvs\//, '');
     
     const { error } = await this.supabase.storage
-      .from(this.bucketName)
+      .from(this.cvBucketName)
       .remove([path]);
 
     if (error) {
@@ -66,7 +68,7 @@ export class StorageService {
     const path = `avatars/${timestamp}-${sanitizedFilename}`;
 
     const { data, error } = await this.supabase.storage
-      .from('avatars')
+      .from(this.avatarBucketName)
       .upload(path, file, {
         contentType,
         cacheControl: '3600',
@@ -78,7 +80,7 @@ export class StorageService {
     }
 
     const { data: urlData } = this.supabase.storage
-      .from('avatars')
+      .from(this.avatarBucketName)
       .getPublicUrl(path);
 
     return urlData.publicUrl;

@@ -25,6 +25,10 @@ export class StorageController {
       throw new BadRequestException('Solo se permiten archivos PDF');
     }
 
+    if (file.size > 10 * 1024 * 1024) {
+      throw new BadRequestException('El archivo no puede superar los 10MB');
+    }
+
     const url = await this.storageService.uploadCV(
       file.buffer,
       file.originalname,

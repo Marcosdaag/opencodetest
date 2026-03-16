@@ -35,9 +35,9 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
               <div class="flex items-center" [class.flex-1]="i < steps.length - 1">
                 <div class="flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium transition-all duration-300"
                      [class.bg-accent-500]="currentStep() >= i + 1"
-                     [class.text-white]="currentStep() >= i + 1"
-                     [class.bg-primary-700]="currentStep() < i + 1"
-                     [class.text-slate-400]="currentStep() < i + 1">
+                     [class.text-theme-primary]="currentStep() >= i + 1"
+                     [class.bg-theme-secondary]="currentStep() < i + 1"
+                     [class.text-theme-secondary]="currentStep() < i + 1">
                   @if (currentStep() > i + 1) {
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -49,14 +49,14 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                 @if (i < steps.length - 1) {
                   <div class="flex-1 h-0.5 mx-1 transition-all duration-300"
                        [class.bg-accent-500]="currentStep() > i + 1"
-                       [class.bg-primary-700]="currentStep() <= i + 1">
+                       [class.bg-theme-secondary]="currentStep() <= i + 1">
                   </div>
                 }
               </div>
             }
           </div>
           <div class="text-center">
-            <span class="text-slate-400 text-xs">Paso {{ currentStep() }} de {{ steps.length }}</span>
+            <span class="text-theme-secondary text-xs">Paso {{ currentStep() }} de {{ steps.length }}</span>
           </div>
         </div>
 
@@ -65,12 +65,12 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           @switch (currentStep()) {
             @case (1) {
               <div @slide>
-                <h2 class="text-xl font-bold text-white mb-1">Elige tu username</h2>
-                <p class="text-slate-400 text-sm mb-4">Tu enlace: devtreekz.com&#x2F;{{ username || 'tu-nombre' }}</p>
+                <h2 class="text-xl font-bold text-theme-primary mb-1">Elige tu username</h2>
+                <p class="text-theme-secondary text-sm mb-4">Tu enlace: devtreekz.com&#x2F;{{ username || 'tu-nombre' }}</p>
                 
                 <div class="mb-3">
                   <div class="flex items-center gap-2">
-                    <span class="text-slate-500 text-sm">devtreekz.com/</span>
+                    <span class="text-theme-secondary text-sm">devtreekz.com/</span>
                     <input 
                       type="text" 
                       [(ngModel)]="username" 
@@ -81,7 +81,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                     >
                   </div>
                   @if (usernameChecking) {
-                    <p class="text-slate-400 text-xs mt-1">Verificando...</p>
+                    <p class="text-theme-secondary text-xs mt-1">Verificando...</p>
                   } @else if (username) {
                     @if (usernameAvailable === true) {
                       <p class="text-green-400 text-xs mt-1 flex items-center gap-1">
@@ -105,8 +105,8 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (2) {
               <div @slide>
-                <h2 class="text-xl font-bold text-white mb-1">Información personal</h2>
-                <p class="text-slate-400 text-sm mb-4">Cuéntanos quién eres</p>
+                <h2 class="text-xl font-bold text-theme-primary mb-1">Información personal</h2>
+                <p class="text-theme-secondary text-sm mb-4">Cuéntanos quién eres</p>
                 
                 <!-- Avatar Upload -->
                 <div class="mb-4 flex items-center gap-4">
@@ -114,19 +114,19 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                     @if (avatarPreview()) {
                       <img [src]="avatarPreview()" class="w-16 h-16 rounded-full object-cover border-2 border-accent-500">
                     } @else {
-                      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white border-2 border-primary-600">
-                        {{ name?.charAt(0)?.toUpperCase() || '?' }}
+                      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-theme-primary border-2 border-theme">
+                        {{ name.charAt(0).toUpperCase() || '?' }}
                       </div>
                     }
                     <label class="absolute bottom-0 right-0 w-6 h-6 bg-accent-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-accent-400 transition-colors">
-                      <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-3 h-3 text-theme-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                       <input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" (change)="onAvatarSelect($event)">
                     </label>
                   </div>
-                  <div class="text-xs text-slate-400">
+                  <div class="text-xs text-theme-secondary">
                     @if (avatarUploading) {
                       <span class="text-accent-400">Subiendo...</span>
                     } @else {
@@ -166,7 +166,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                       placeholder="Cuéntanos sobre ti..."
                       maxlength="800"
                     ></textarea>
-                    <p class="text-slate-500 text-xs mt-1 text-right">{{ bio?.length || 0 }}/800</p>
+                    <p class="text-theme-secondary text-xs mt-1 text-right">{{ bio.length || 0 }}/800</p>
                   </div>
                 </div>
               </div>
@@ -174,12 +174,12 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (3) {
               <div @slide>
-                <h2 class="text-xl font-bold text-white mb-1">Agrega tus links</h2>
-                <p class="text-slate-400 text-sm mb-4">Añade tu portfolio, LinkedIn y más</p>
+                <h2 class="text-xl font-bold text-theme-primary mb-1">Agrega tus links</h2>
+                <p class="text-theme-secondary text-sm mb-4">Añade tu portfolio, LinkedIn y más</p>
                 
                 <div class="space-y-3 mb-4">
                   @for (link of links; track $index) {
-                    <div class="bg-primary-700/50 rounded-lg p-3">
+                    <div class="bg-theme-secondary/50 rounded-lg p-3">
                       <div class="flex items-center gap-2 mb-2">
                         <select [(ngModel)]="link.type" class="input-field text-xs py-1.5 w-32">
                           <option value="PORTFOLIO">🌐 Portfolio</option>
@@ -196,11 +196,11 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                             placeholder="Título del link"
                           >
                         } @else {
-                          <span class="text-xs text-slate-400 flex-1">
+                          <span class="text-xs text-theme-secondary flex-1">
                             {{ getLinkTypeName(link.type) }}
                           </span>
                         }
-                        <button (click)="removeLink($index)" class="text-slate-400 hover:text-red-400 transition-colors p-1">
+                        <button (click)="removeLink($index)" class="text-theme-secondary hover:text-red-400 transition-colors p-1">
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                           </svg>
@@ -227,8 +227,8 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (4) {
               <div @slide>
-                <h2 class="text-xl font-bold text-white mb-1">Conecta GitHub</h2>
-                <p class="text-slate-400 text-sm mb-4">Selecciona hasta 5 repositorios destacados</p>
+                <h2 class="text-xl font-bold text-theme-primary mb-1">Conecta GitHub</h2>
+                <p class="text-theme-secondary text-sm mb-4">Selecciona hasta 5 repositorios destacados</p>
                 
                 <div class="mb-3">
                   <label class="block text-slate-300 text-xs mb-1">Tu usuario de GitHub</label>
@@ -257,7 +257,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                       <div 
                         class="flex items-center gap-2 p-2 rounded-lg cursor-pointer transition-all text-xs"
                         [class.bg-accent-500/20]="isRepoSelected(repo)"
-                        [class.bg-primary-700/30]="!isRepoSelected(repo)"
+                        [class.bg-theme-secondary/30]="!isRepoSelected(repo)"
                         (click)="toggleRepo(repo)"
                       >
                         <div class="w-4 h-4 rounded border flex items-center justify-center"
@@ -270,27 +270,27 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                           }
                         </div>
                         <div class="flex-1 min-w-0">
-                          <p class="text-white font-medium truncate">{{ repo.name }}</p>
+                          <p class="text-theme-primary font-medium truncate">{{ repo.name }}</p>
                         </div>
-                        <div class="flex items-center gap-1 text-slate-400">
+                        <div class="flex items-center gap-1 text-theme-secondary">
                           ⭐ {{ repo.stargazers_count }}
                         </div>
                       </div>
                     }
                   </div>
-                  <p class="text-slate-400 text-xs mt-2">{{ selectedRepos().length }}/5 seleccionados</p>
+                  <p class="text-theme-secondary text-xs mt-2">{{ selectedRepos().length }}/5 seleccionados</p>
                 }
               </div>
             }
             
             @case (5) {
               <div @slide>
-                <h2 class="text-xl font-bold text-white mb-1">Sube tu CV</h2>
-                <p class="text-slate-400 text-sm mb-4">Añade tu currículum en PDF</p>
+                <h2 class="text-xl font-bold text-theme-primary mb-1">Sube tu CV</h2>
+                <p class="text-theme-secondary text-sm mb-4">Añade tu currículum en PDF</p>
                 
                 @if (!cvFile && !cvUrl) {
                   <div 
-                    class="border-2 border-dashed border-primary-600 rounded-lg p-6 text-center cursor-pointer hover:border-accent-500 transition-colors"
+                    class="border-2 border-dashed border-theme rounded-lg p-6 text-center cursor-pointer hover:border-accent-500 transition-colors"
                     (click)="fileInput.click()"
                     (dragover)="onDragOver($event)"
                     (drop)="onDrop($event)"
@@ -302,26 +302,26 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                       class="hidden"
                       (change)="onFileSelect($event)"
                     >
-                    <svg class="w-10 h-10 mx-auto text-slate-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-10 h-10 mx-auto text-theme-secondary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <p class="text-slate-400 text-sm">📄 Arrastra o haz clic</p>
-                    <p class="text-slate-500 text-xs mt-1">Máximo 10MB</p>
+                    <p class="text-theme-secondary text-sm">📄 Arrastra o haz clic</p>
+                    <p class="text-theme-secondary text-xs mt-1">Máximo 10MB</p>
                   </div>
                 }
                 
                 @if (cvFile) {
-                  <div class="bg-primary-700/50 rounded-lg p-3 flex items-center gap-3">
+                  <div class="bg-theme-secondary/50 rounded-lg p-3 flex items-center gap-3">
                     <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
                       <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-white text-sm font-medium truncate">{{ cvFile.name }}</p>
-                      <p class="text-slate-400 text-xs">{{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB</p>
+                      <p class="text-theme-primary text-sm font-medium truncate">{{ cvFile.name }}</p>
+                      <p class="text-theme-secondary text-xs">{{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB</p>
                     </div>
-                    <button (click)="removeCv()" class="text-slate-400 hover:text-red-400 transition-colors">
+                    <button (click)="removeCv()" class="text-theme-secondary hover:text-red-400 transition-colors">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                       </svg>
@@ -331,10 +331,10 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                 
                 @if (cvUploading) {
                   <div class="mt-3">
-                    <div class="h-1.5 bg-primary-700 rounded-full overflow-hidden">
+                    <div class="h-1.5 bg-theme-secondary rounded-full overflow-hidden">
                       <div class="h-full bg-accent-500 transition-all duration-300" [style.width.%]="uploadProgress"></div>
                     </div>
-                    <p class="text-slate-400 text-xs mt-1">Subiendo... {{ uploadProgress }}%</p>
+                    <p class="text-theme-secondary text-xs mt-1">Subiendo... {{ uploadProgress }}%</p>
                   </div>
                 }
               </div>
@@ -342,46 +342,46 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
             
             @case (6) {
               <div @slide>
-                <h2 class="text-xl font-bold text-white mb-1">Vista previa</h2>
-                <p class="text-slate-400 text-sm mb-4">Así se verá tu perfil</p>
+                <h2 class="text-xl font-bold text-theme-primary mb-1">Vista previa</h2>
+                <p class="text-theme-secondary text-sm mb-4">Así se verá tu perfil</p>
                 
-                <div class="bg-primary-700/50 rounded-xl p-4">
+                <div class="bg-theme-secondary/50 rounded-xl p-4">
                   <div class="text-center mb-4">
                     @if (avatarPreview()) {
                       <img [src]="avatarPreview()" class="w-16 h-16 rounded-full object-cover mx-auto mb-2 border-2 border-accent-500">
                     } @else {
-                      <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-white mb-2">
-                        {{ name?.charAt(0)?.toUpperCase() || '?' }}
+                      <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-accent-500 to-purple-600 flex items-center justify-center text-2xl font-bold text-theme-primary mb-2">
+                        {{ name.charAt(0).toUpperCase() || '?' }}
                       </div>
                     }
-                    <h3 class="text-white font-semibold text-lg">{{ name || 'Tu nombre' }}</h3>
+                    <h3 class="text-theme-primary font-semibold text-lg">{{ name || 'Tu nombre' }}</h3>
                     @if (jobTitle) {
                       <p class="text-accent-400 text-sm">{{ jobTitle }}</p>
                     }
                     @if (bio) {
-                      <p class="text-slate-400 text-xs mt-2">{{ bio }}</p>
+                      <p class="text-theme-secondary text-xs mt-2">{{ bio }}</p>
                     }
                   </div>
                   
                   @if (links.length > 0) {
                     <div class="space-y-2 mb-3">
                       @for (link of links; track $index) {
-                        <div class="bg-primary-800 rounded-lg p-2 flex items-center gap-2">
+                        <div class="bg-theme-tertiary rounded-lg p-2 flex items-center gap-2">
                           <span class="text-lg">{{ getLinkEmoji(link.type) }}</span>
-                          <span class="text-white text-sm">{{ getLinkDisplayTitle(link) }}</span>
+                          <span class="text-theme-primary text-sm">{{ getLinkDisplayTitle(link) }}</span>
                         </div>
                       }
                     </div>
                   }
                   
                   @if (selectedRepos().length > 0) {
-                    <div class="border-t border-primary-600 pt-3 mt-3">
-                      <p class="text-slate-400 text-xs">💻 {{ selectedRepos().length }} proyectos destacados</p>
+                    <div class="border-t border-theme pt-3 mt-3">
+                      <p class="text-theme-secondary text-xs">💻 {{ selectedRepos().length }} proyectos destacados</p>
                     </div>
                   }
                   
                   @if (cvUrl) {
-                    <div class="border-t border-primary-600 pt-3 mt-3">
+                    <div class="border-t border-theme pt-3 mt-3">
                       <div class="flex items-center gap-1 text-green-400 text-xs">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -396,7 +396,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
           }
           
           <!-- Navigation Buttons -->
-          <div class="flex justify-between mt-5 pt-4 border-t border-primary-700">
+          <div class="flex justify-between mt-5 pt-4 border-t border-theme">
             <button 
               (click)="previousStep()" 
               [disabled]="currentStep() === 1"
