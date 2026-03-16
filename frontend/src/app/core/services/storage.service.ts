@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class StorageService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:3000/api/storage';
+  private baseUrl = 'https://opencodetest-l0bq.onrender.com/api/storage';
 
   uploadCV(file: File): Observable<{ url: string }> {
     const formData = new FormData();

@@ -8,7 +8,7 @@ import { GithubRepo, GithubUser } from '../models/github.model';
 })
 export class GithubService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:3000/api/github';
+  private baseUrl = 'https://opencodetest-l0bq.onrender.com/api/github';
 
   getRepos(username: string, search?: string): Observable<GithubRepo[]> {
     let params = new HttpParams().set('username', username);
