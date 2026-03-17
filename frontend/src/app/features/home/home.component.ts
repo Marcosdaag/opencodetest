@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="min-h-[calc(100vh-4rem)] bg-mesh relative">
+    <div class="bg-mesh relative">
       <!-- Hero Section -->
       <section class="relative">
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">

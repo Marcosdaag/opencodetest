@@ -29,7 +29,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
   standalone: true,
   imports: [CommonModule, RouterLink, LinkCardComponent, LoadingComponent],
   template: `
-    <div class="min-h-[calc(100vh-4rem)] py-8 px-4 bg-mesh relative">
+    <div class="py-8 px-4 bg-mesh relative">
       <div class="relative z-10">
         @if (loading()) {
           <div class="flex justify-center py-20">

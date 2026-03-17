@@ -26,7 +26,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
     ])
   ],
   template: `
-    <div class="min-h-[calc(100vh-4rem)] py-6 px-4">
+    <div class="py-6 px-4">
       <div class="max-w-xl mx-auto">
         <!-- Progress Bar Compact -->
         <div class="mb-6">

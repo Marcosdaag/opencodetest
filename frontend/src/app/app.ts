@@ -8,14 +8,13 @@ import { FooterComponent } from './shared components/footer/footer.component';
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, FooterComponent],
   template: `
-    <!-- Global Background Effects - Fixed viewport, no overflow -->
+    <!-- Global Background Effects -->
     <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-      <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-500/8 rounded-full blur-[80px]"></div>
-      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[80px]"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-accent-500/3 to-transparent rounded-full"></div>
+      <div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] bg-accent-500/10 rounded-full blur-[60px]"></div>
+      <div class="absolute bottom-[-100px] left-[-100px] w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[60px]"></div>
     </div>
     
-    <div class="min-h-screen flex flex-col">
+    <div class="flex flex-col" style="min-height: 100vh;">
       <app-navbar />
       <main class="flex-1 pt-16">
         <router-outlet />
