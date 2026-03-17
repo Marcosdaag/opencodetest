@@ -12,23 +12,23 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
         <div class="flex items-center justify-between h-14">
           <a routerLink="/" (click)="scrollToTop()" class="flex items-center gap-2 group">
             <img src="icon.png" alt="devtreekz" class="w-8 h-8 group-hover:scale-110 transition-transform">
-            <span class="text-xl font-bold bg-gradient-to-r from-accent-400 to-purple-400 bg-clip-text text-transparent">
+            <span class="text-xl font-bold bg-gradient-to-r from-accent-400 to-cyan-400 bg-clip-text text-transparent">
               devtreekz
             </span>
           </a>
           
           <div class="hidden md:flex items-center gap-4">
-            <a routerLink="/" (click)="scrollToTop()" class="text-theme-secondary hover:text-theme-primary transition-colors text-sm">Inicio</a>
+            <a routerLink="/" (click)="scrollToTop()" class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-sm">Inicio</a>
             <app-theme-toggle />
             <a routerLink="/create" class="btn-primary text-sm py-2">
-              🚀 Crear mi perfil
+              Crear mi perfil
             </a>
           </div>
 
           <div class="md:hidden flex items-center gap-2">
             <app-theme-toggle />
             <a routerLink="/create" class="btn-primary text-sm py-1.5 px-3 text-xs">
-              🚀 Crear
+              Crear
             </a>
           </div>
         </div>
