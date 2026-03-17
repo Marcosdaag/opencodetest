@@ -1,4 +1,4 @@
-export type LinkType = 'CV' | 'PORTFOLIO' | 'LINKEDIN' | 'GITHUB' | 'CUSTOM';
+export type LinkType = 'PORTFOLIO' | 'LINKEDIN' | 'GITHUB';
 
 export interface Link {
   id: string;
@@ -42,7 +42,6 @@ export interface CreateProfileDto {
   avatarUrl?: string;
   githubUrl?: string;
   linkedinUrl?: string;
-  cvUrl?: string;
   links: CreateLinkDto[];
   featuredRepos: CreateFeaturedRepoDto[];
 }
@@ -50,7 +49,6 @@ export interface CreateProfileDto {
 export interface CreateLinkDto {
   type: LinkType;
   url: string;
-  title?: string;
 }
 
 export interface CreateFeaturedRepoDto {

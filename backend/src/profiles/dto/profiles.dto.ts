@@ -3,11 +3,9 @@ import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum LinkType {
-  CV = 'CV',
   PORTFOLIO = 'PORTFOLIO',
   LINKEDIN = 'LINKEDIN',
   GITHUB = 'GITHUB',
-  CUSTOM = 'CUSTOM',
 }
 
 export class CreateLinkDto {
@@ -19,12 +17,6 @@ export class CreateLinkDto {
   @IsString()
   @MaxLength(500)
   url: string;
-
-  @ApiPropertyOptional({ maxLength: 100, description: 'Requerido solo para tipo CUSTOM' })
-  @IsOptional()
-  @IsString()
-  @MaxLength(100)
-  title?: string;
 }
 
 export class CreateFeaturedRepoDto {
@@ -89,11 +81,6 @@ export class CreateProfileDto {
   @IsString()
   @Matches(/^https?:\/\/(www\.)?linkedin\.com\/(in|pub)\/[a-zA-Z0-9_-]+\/?$/, { message: 'LinkedIn URL debe ser un perfil válido' })
   linkedinUrl?: string;
-
-  @ApiPropertyOptional({ description: 'URL del CV subido a Storage' })
-  @IsOptional()
-  @IsString()
-  cvUrl?: string;
 
   @ApiPropertyOptional({ type: [CreateLinkDto] })
   @IsOptional()

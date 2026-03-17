@@ -21,9 +21,7 @@ export interface ProfileWithLinks extends Profile {
 const DEFAULT_TITLES: Record<LinkType, string> = {
   [LinkType.GITHUB]: 'GitHub',
   [LinkType.LINKEDIN]: 'LinkedIn',
-  [LinkType.CV]: 'Currículum',
   [LinkType.PORTFOLIO]: 'Portfolio',
-  [LinkType.CUSTOM]: '',
 };
 
 @Injectable()
@@ -63,12 +61,12 @@ export class ProfilesService {
       throw new BadRequestException('El username ya está en uso');
     }
 
-    // Validar links duplicados: solo se permite 1 de cada tipo (excepto CUSTOM)
+    // Validar links duplicados: solo se permite 1 de cada tipo
     if (dto.links && dto.links.length > 0) {
-      const nonCustomTypes = dto.links.filter(l => l.type !== 'CUSTOM').map(l => l.type);
-      const uniqueTypes = new Set(nonCustomTypes);
-      if (uniqueTypes.size !== nonCustomTypes.length) {
-        throw new BadRequestException('Solo puedes agregar un link de cada tipo (Portfolio, LinkedIn, GitHub, CV). Usa links personalizados para agregar más.');
+      const types = dto.links.map(l => l.type);
+      const uniqueTypes = new Set(types);
+      if (uniqueTypes.size !== types.length) {
+        throw new BadRequestException('Solo puedes agregar un link de cada tipo (Portfolio, LinkedIn, GitHub).');
       }
     }
 
@@ -87,8 +85,7 @@ export class ProfilesService {
     const linksData = dto.links?.map((link, index) => ({
       type: link.type,
       url: link.url,
-      // Usar título personalizado o el título por defecto según el tipo
-      title: link.title || DEFAULT_TITLES[link.type] || 'Enlace',
+      title: DEFAULT_TITLES[link.type] || 'Enlace',
       order: index,
     })) || [];
 
@@ -124,7 +121,6 @@ export class ProfilesService {
       avatarUrl: dto.avatarUrl,
       githubUsername,
       linkedinUrl: dto.linkedinUrl,
-      cvUrl: dto.cvUrl,
       qrCodeUrl: qrCodeDataUrl,
       links: {
         create: linksData,

@@ -130,40 +130,6 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
               </div>
             }
 
-            <!-- CV Section -->
-            @if (profile()!.cvUrl) {
-              <div class="mb-10 animate-fade-up" style="animation-delay: 0.4s">
-                <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-5 flex items-center gap-2 font-[Outfit]">
-                  <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Currículum
-                </h2>
-                <a 
-                  [href]="profile()!.cvUrl" 
-                  target="_blank"
-                  class="group block bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl p-4 transition-all duration-300 hover:border-red-500/50 hover:shadow-lg hover:shadow-red-500/10 hover:-translate-y-0.5"
-                >
-                  <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-xl bg-red-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-                    <div class="flex-1">
-                      <h3 class="text-[var(--text-primary)] font-semibold group-hover:text-red-400 transition-colors">
-                        Descargar CV
-                      </h3>
-                      <p class="text-[var(--text-secondary)] text-sm">Documento PDF</p>
-                    </div>
-                    <svg class="w-5 h-5 text-zinc-500 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                  </div>
-                </a>
-              </div>
-            }
-
             <!-- QR Section -->
             @if (profile()!.qrCodeUrl) {
               <div class="mb-10 animate-fade-up" style="animation-delay: 0.5s">

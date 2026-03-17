@@ -185,21 +185,10 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                           <option value="PORTFOLIO" [disabled]="hasLinkType('PORTFOLIO')">🌐 Portfolio</option>
                           <option value="LINKEDIN" [disabled]="hasLinkType('LINKEDIN')">💼 LinkedIn</option>
                           <option value="GITHUB" [disabled]="hasLinkType('GITHUB')">💻 GitHub</option>
-                          <option value="CV" [disabled]="hasLinkType('CV')">📄 CV</option>
-                          <option value="CUSTOM">✨ Personalizado</option>
                         </select>
-                        @if (link.type === 'CUSTOM') {
-                          <input 
-                            type="text" 
-                            [(ngModel)]="link.title"
-                            class="input-field text-xs py-1.5 flex-1"
-                            placeholder="Título del link"
-                          >
-                        } @else {
-                          <span class="text-xs text-theme-secondary flex-1">
-                            {{ getLinkTypeName(link.type) }}
-                          </span>
-                        }
+                        <span class="text-xs text-[var(--text-secondary)] flex-1">
+                          {{ getLinkTypeName(link.type) }}
+                        </span>
                         <button (click)="removeLink($index)" class="text-theme-secondary hover:text-red-400 transition-colors p-1">
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -223,11 +212,11 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                   @if (links.length === 0) {
                     Agregar link
                   } @else {
-                    + Personalizado
+                    + Agregar otro
                   }
                 </button>
-                @if (links.length >= 4) {
-                  <p class="text-theme-secondary text-xs text-center mt-2">Máximo 1 de cada tipo (Portfolio, LinkedIn, GitHub, CV) + ilimitados personalizados</p>
+                @if (links.length >= 3) {
+                  <p class="text-[var(--text-secondary)] text-xs text-center mt-2">Máximo 3 links (Portfolio, LinkedIn, GitHub)</p>
                 }
               </div>
             }
@@ -295,7 +284,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                 <h2 class="text-xl font-bold text-theme-primary mb-1">Sube tu CV</h2>
                 <p class="text-theme-secondary text-sm mb-4">Añade tu currículum en PDF</p>
                 
-                @if (!cvFile && !cvUrl) {
+                @if (!cvFile) {
                   <div 
                     class="border-2 border-dashed border-theme rounded-lg p-6 text-center cursor-pointer hover:border-accent-500 transition-colors"
                     (click)="fileInput.click()"
@@ -387,7 +376,7 @@ import { LoadingComponent } from '../../shared components/loading/loading.compon
                     </div>
                   }
                   
-                  @if (cvUrl) {
+                  @if (cvFile) {
                     <div class="border-t border-theme pt-3 mt-3">
                       <div class="flex items-center gap-1 text-green-400 text-xs">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -479,7 +468,6 @@ export class CreateProfileComponent {
   
   // Step 5: CV
   cvFile: File | null = null;
-  cvUrl = '';
   cvUploading = false;
   uploadProgress = 0;
 
@@ -568,8 +556,7 @@ export class CreateProfileComponent {
 
   // Step 3: Links
   addLink() {
-    // Agregar un link CUSTOM por defecto (ya que es el único que permite múltiples)
-    this.links.push({ type: 'CUSTOM', url: '', title: '' });
+    this.links.push({ type: 'PORTFOLIO', url: '' });
   }
 
   hasLinkType(type: LinkType): boolean {
@@ -577,9 +564,6 @@ export class CreateProfileComponent {
   }
 
   canAddLinkType(type: LinkType): boolean {
-    // CUSTOM siempre se puede agregar
-    if (type === 'CUSTOM') return true;
-    // Los demás tipos solo se pueden agregar una vez
     return !this.hasLinkType(type);
   }
 
@@ -591,9 +575,7 @@ export class CreateProfileComponent {
     const names: Record<LinkType, string> = {
       'PORTFOLIO': 'Portfolio',
       'LINKEDIN': 'LinkedIn',
-      'GITHUB': 'GitHub',
-      'CV': 'Currículum',
-      'CUSTOM': 'Personalizado'
+      'GITHUB': 'GitHub'
     };
     return names[type];
   }
@@ -602,15 +584,12 @@ export class CreateProfileComponent {
     const emojis: Record<LinkType, string> = {
       'PORTFOLIO': '🌐',
       'LINKEDIN': '💼',
-      'GITHUB': '💻',
-      'CV': '📄',
-      'CUSTOM': '🔗'
+      'GITHUB': '💻'
     };
     return emojis[type];
   }
 
   getLinkDisplayTitle(link: CreateLinkDto): string {
-    if (link.title) return link.title;
     return this.getLinkTypeName(link.type);
   }
 
@@ -685,7 +664,6 @@ export class CreateProfileComponent {
 
   removeCv() {
     this.cvFile = null;
-    this.cvUrl = '';
   }
 
   uploadCv() {
@@ -702,8 +680,7 @@ export class CreateProfileComponent {
     }, 100);
 
     this.storage.uploadCV(this.cvFile!).subscribe({
-      next: (res) => {
-        this.cvUrl = res.url;
+      next: () => {
         this.cvUploading = false;
         clearInterval(interval);
         this.uploadProgress = 100;
@@ -725,7 +702,6 @@ export class CreateProfileComponent {
       bio: this.bio || undefined,
       avatarUrl: this.avatarUrl || undefined,
       githubUrl: this.githubUsername ? `github.com/${this.githubUsername}` : undefined,
-      cvUrl: this.cvUrl || undefined,
       links: this.links.filter(l => l.url),
       featuredRepos: this.selectedRepos().map(repo => ({
         name: repo.name,

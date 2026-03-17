@@ -10,13 +10,13 @@ import { FooterComponent } from './shared components/footer/footer.component';
   template: `
     <!-- Global Background Effects -->
     <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-      <div class="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] bg-accent-500/10 rounded-full blur-[60px]"></div>
-      <div class="absolute bottom-[-100px] left-[-100px] w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[60px]"></div>
+      <div class="absolute top-0 right-[-50px] w-[300px] h-[300px] bg-accent-500/5 rounded-full blur-[60px]"></div>
+      <div class="absolute bottom-0 left-[-50px] w-[300px] h-[300px] bg-cyan-500/5 rounded-full blur-[60px]"></div>
     </div>
     
-    <div class="flex flex-col" style="min-height: 100vh;">
+    <div class="flex flex-col overflow-hidden">
       <app-navbar />
-      <main class="flex-1 pt-16">
+      <main class="pt-16">
         <router-outlet />
       </main>
       <app-footer />
