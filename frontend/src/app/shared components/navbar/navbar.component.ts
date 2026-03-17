@@ -11,9 +11,9 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-14">
           <a routerLink="/" (click)="scrollToTop()" class="flex items-center gap-2 group">
-            <img src="icon.png" alt="devtreekz" class="w-8 h-8 group-hover:scale-110 transition-transform duration-300">
+            <img src="icon.png" alt="Devtreekz" class="w-8 h-8 group-hover:scale-110 transition-transform duration-300">
             <span class="text-xl font-bold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors duration-200">
-              devtreekz
+              Devtreekz
             </span>
           </a>
           

@@ -278,13 +278,13 @@ export class ProfileComponent implements OnInit {
     const defaultImage = 'https://devtreekz.vercel.app/icon.png';
     
     // Title - Título que aparece en la pestaña del navegador
-    this.title.setTitle(`${profile.name} - devtreekz`);
+    this.title.setTitle(`Devtreekz - ${profile.name}`);
     
     // Meta description - Descripción para buscadores
     this.meta.updateTag({ name: 'description', content: profile.bio || `Perfil profesional de ${profile.name}${profile.jobTitle ? ` - ${profile.jobTitle}` : ''}` });
     
     // Open Graph - Para Facebook, WhatsApp, LinkedIn (cuando se comparte el link)
-    this.meta.updateTag({ property: 'og:title', content: `${profile.name} - devtreekz` });
+    this.meta.updateTag({ property: 'og:title', content: `Devtreekz - ${profile.name}` });
     this.meta.updateTag({ property: 'og:description', content: profile.bio || `Mira el perfil profesional de ${profile.name}` });
     this.meta.updateTag({ property: 'og:url', content: profileUrl });
     this.meta.updateTag({ property: 'og:image', content: profile.avatarUrl || defaultImage });
@@ -292,7 +292,7 @@ export class ProfileComponent implements OnInit {
     
     // Twitter Cards - Para Twitter/X (cuando se comparte el link)
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.updateTag({ name: 'twitter:title', content: `${profile.name} - devtreekz` });
+    this.meta.updateTag({ name: 'twitter:title', content: `Devtreekz - ${profile.name}` });
     this.meta.updateTag({ name: 'twitter:description', content: profile.bio || `Mira el perfil profesional de ${profile.name}` });
     this.meta.updateTag({ name: 'twitter:image', content: profile.avatarUrl || defaultImage });
     this.meta.updateTag({ name: 'twitter:url', content: profileUrl });
